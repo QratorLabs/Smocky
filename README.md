@@ -27,7 +27,7 @@ There are several classes that will do the work:
 # Install
 
 ```shell
-composer require qratorlabs/smocky
+composer require --dev qratorlabs/smocky
 ```
 
 ## MockedMethod
