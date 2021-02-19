@@ -24,6 +24,12 @@ There are several classes that will do the work:
   - `MockedGlobalConstant`
   - `UndefinedGlobalConstant`
 
+# Install
+
+```shell
+composer require qratorlabs/smocky
+```
+
 ## MockedMethod
 
 The main target is to make mocking static methods easy and feels-n-looks like using PHPUnit.
