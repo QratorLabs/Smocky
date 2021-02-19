@@ -1,0 +1,42 @@
+{
+  "name": "qratorlabs/smocky",
+  "description": "Mocking library based on runkit",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ilya Urvachev",
+      "email": "ui@qrator.net"
+    }
+  ],
+  "require": {
+    "php": "^7.1 || ^8.0",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "QratorLabs\\Smocky\\": "./src"
+    }
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.5",
+    "phpstan/phpstan": "^0.12.65"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "QratorLabs\\Smocky\\Test\\PhpUnit\\": "./test/phpunit"
+    },
+    "files": [
+      "./test/phpstan/runkit7.stub.php"
+    ]
+  },
+  "suggest": {
+    "ext-runkit7": "^3.0"
+  },
+  "scripts": {
+    "phpstan": "./vendor/bin/phpstan analyse -c test/phpstan.neon",
+    "phpunit": "./vendor/bin/phpunit -c test/phpunit.xml",
+    "phpcs": "./vendor/bin/phpcs --standard=test/phpcs.xml -s -p .",
+    "phpcbf": "./vendor/bin/phpcbf --standard=test/phpcs.xml -s -p ."
+  }
+}
