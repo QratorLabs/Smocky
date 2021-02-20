@@ -14,6 +14,9 @@ use function PHPUnit\Framework\assertNull;
 use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
+/**
+ * @internal
+ */
 class MockedClassMethodTest extends TestCase
 {
 

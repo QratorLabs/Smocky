@@ -15,6 +15,9 @@ use function array_reduce;
 use function PHPUnit\Framework\assertContains;
 use function PHPUnit\Framework\assertNotContains;
 
+/**
+ * @internal
+ */
 class UndefinedClassMethodTest extends TestCase
 {
     public function testMissingMethod(): void

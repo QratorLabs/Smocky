@@ -17,6 +17,9 @@ use function PHPUnit\Framework\assertNotSame;
 use function PHPUnit\Framework\assertStringContainsString;
 use function strtoupper;
 
+/**
+ * @internal
+ */
 class MockedEntityTest extends TestCase
 {
     public function testStashedName(): void

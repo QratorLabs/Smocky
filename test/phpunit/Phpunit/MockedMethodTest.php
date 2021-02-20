@@ -16,6 +16,9 @@ use function PHPUnit\Framework\never;
 use function PHPUnit\Framework\once;
 use function uniqid;
 
+/**
+ * @internal
+ */
 class MockedMethodTest extends TestCase
 {
 

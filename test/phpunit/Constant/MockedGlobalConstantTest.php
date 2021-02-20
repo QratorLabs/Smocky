@@ -15,6 +15,9 @@ use function PHPUnit\Framework\assertNotEquals;
 use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
+/**
+ * @internal
+ */
 class MockedGlobalConstantTest extends TestCase
 {
     /**

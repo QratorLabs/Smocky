@@ -14,6 +14,9 @@ use ReflectionException;
 use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
+/**
+ * @internal
+ */
 class MockedClassConstantTest extends TestCase
 {
 

@@ -16,6 +16,9 @@ use function PHPUnit\Framework\assertArrayHasKey;
 use function PHPUnit\Framework\assertArrayNotHasKey;
 use function PHPUnit\Framework\assertSame;
 
+/**
+ * @internal
+ */
 class UndefinedClassConstantTest extends TestCase
 {
 

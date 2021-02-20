@@ -7,6 +7,9 @@ namespace QratorLabs\Smocky\Test\PhpUnit\Helpers;
 use Generator;
 use ReflectionClassConstant;
 
+/**
+ * @internal
+ */
 class ClassWithConstants
 {
 

@@ -16,6 +16,9 @@ use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertTrue;
 use function uniqid;
 
+/**
+ * @internal
+ */
 class UndefinedGlobalConstantTest extends TestCase
 {
 

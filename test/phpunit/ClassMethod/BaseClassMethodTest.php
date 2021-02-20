@@ -10,6 +10,9 @@ use QratorLabs\Smocky\ClassMethod\BaseClassMethod;
 use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
+/**
+ * @internal
+ */
 class BaseClassMethodTest extends TestCase
 {
 

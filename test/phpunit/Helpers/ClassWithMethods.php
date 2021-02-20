@@ -8,6 +8,9 @@ use Generator;
 use ReflectionException;
 use ReflectionMethod;
 
+/**
+ * @internal
+ */
 class ClassWithMethods
 {
 
