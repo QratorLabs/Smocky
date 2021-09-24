@@ -14,6 +14,7 @@ There are several classes that will do the work:
 
 - To use with PHPUnit:
   - `MockedMethod` to mock method "globally" and use PHPUnit's `*Mockers` - `expects/willReturn/willReturnCallback/...`
+  - `MockedFunction` 
 - For class methods:
   - `MockedClassMethod` to mock any class with closure
   - `UndefinedClassMethod` to make method disappear
@@ -23,6 +24,9 @@ There are several classes that will do the work:
 - For global constants:
   - `MockedGlobalConstant`
   - `UndefinedGlobalConstant`
+- For functions (global or Namespaced):
+  - `MockedFunction`
+  - `UndefinedFunction`
 
 # Install
 
@@ -94,10 +98,6 @@ Thing to keep in mind before using:
 - Mocking anything will hit memory consumption (ex. to preserve changes)
 - Mocking methods will hit performance (a bit)
 - To mock static class we must check (and mock) children of mocking class
-
-## Todo
-
-- Add support for mocking global functions
 
 # Powered by
 
