@@ -1,3 +1,4 @@
 /vendor/
 /composer.lock
 /test/report-junit.xml
+/test/phpunit.cache.xml

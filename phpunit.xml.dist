@@ -2,29 +2,32 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
          backupGlobals="true"
-         cacheResult="false"
+         cacheResultFile="./test/phpunit.cache.xml"
          verbose="true">
   <coverage>
     <include>
-      <directory suffix=".php">../src</directory>
+      <directory suffix=".php">./src</directory>
     </include>
   </coverage>
   <testsuites>
     <testsuite name="ClassMethod">
-      <directory>./phpunit/ClassMethod</directory>
+      <directory>./test/phpunit/ClassMethod</directory>
+    </testsuite>
+    <testsuite name="Functions">
+      <directory>./test/phpunit/Functions</directory>
     </testsuite>
     <testsuite name="Constant">
-      <directory>./phpunit/Constant</directory>
+      <directory>./test/phpunit/Constant</directory>
     </testsuite>
     <testsuite name="Smocky">
-      <directory>./phpunit/Smocky</directory>
+      <directory>./test/phpunit/Smocky</directory>
     </testsuite>
     <testsuite name="Phpunit">
-      <directory>./phpunit/Phpunit</directory>
+      <directory>./test/phpunit/Phpunit</directory>
     </testsuite>
   </testsuites>
   <logging>
     <testdoxText outputFile="php://stdout"/>
-    <junit outputFile="report-junit.xml"/>
+    <junit outputFile="./test/report-junit.xml"/>
   </logging>
 </phpunit>

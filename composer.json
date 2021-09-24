@@ -27,16 +27,17 @@
       "QratorLabs\\Smocky\\Test\\PhpUnit\\": "./test/phpunit"
     },
     "files": [
-      "./test/phpstan/runkit7.stub.php"
+      "./test/phpstan/runkit7.stub.php",
+      "./test/phpunit/Helpers/Functions.php"
     ]
   },
   "suggest": {
     "ext-runkit7": "^3.0"
   },
   "scripts": {
-    "phpstan": "./vendor/bin/phpstan analyse -c test/phpstan.neon",
-    "phpunit": "./vendor/bin/phpunit -c test/phpunit.xml",
-    "phpcs": "./vendor/bin/phpcs --standard=test/phpcs.xml -s -p .",
-    "phpcbf": "./vendor/bin/phpcbf --standard=test/phpcs.xml -s -p ."
+    "phpstan": "phpstan analyse",
+    "phpunit": "phpunit",
+    "phpcs": "phpcs ",
+    "phpcbf": "phpcbf"
   }
 }

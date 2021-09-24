@@ -131,4 +131,37 @@ if (!defined('RUNKIT7_ACC_PUBLIC')) {
     {
         return false;
     }
+
+    /**
+     * @param string         $function_name
+     * @param Closure|string $argument_list_or_closure
+     * @param string|null    $code_or_doc_comment
+     * @param bool|null      $return_by_reference
+     * @param string|null    $doc_comment
+     * @param string|null    $return_type
+     * @param bool|null      $is_strict
+     *
+     * @return bool
+     */
+    function runkit7_function_add(
+        string $function_name,
+        $argument_list_or_closure,
+        ?string $code_or_doc_comment = null,
+        ?bool $return_by_reference = null,
+        ?string $doc_comment = null,
+        ?string $return_type = null,
+        ?bool $is_strict = null
+    ): bool {
+        return false;
+    }
+
+    function runkit7_function_rename(string $source_name, string $target_name): bool
+    {
+        return false;
+    }
+
+    function runkit7_function_remove(string $function_name): bool
+    {
+        return false;
+    }
 }

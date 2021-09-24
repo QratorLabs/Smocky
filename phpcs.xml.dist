@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <!-- General options -->
+    <!-- see https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="report" value="full"/>
+    <arg name="ignore" value="vendor"/>
+    <arg value="psv"/>
+    <config name="ignore_warnings_on_exit" value="1"/>
+
+    <!-- Target -->
+    <file>./src</file>
+    <file>./test</file>
+
+    <!-- Rules section -->
+    <rule ref="PSR12">
+    </rule>
+</ruleset>
