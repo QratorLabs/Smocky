@@ -8,10 +8,6 @@ use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Phpunit\MockedFunction;
 use ReflectionException;
 
-use function PHPUnit\Framework\assertNotNull;
-use function PHPUnit\Framework\assertNull;
-use function PHPUnit\Framework\assertSame;
-
 class MockedFunctionTest extends TestCase
 {
     /**
@@ -19,15 +15,16 @@ class MockedFunctionTest extends TestCase
      */
     public function testMinimal(): void
     {
+        /** @see \QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction */
         $function    = '\QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction';
         $originValue = $function();
 
-        assertNotNull($originValue);
+        self::assertNotNull($originValue);
         $functionMock = new MockedFunction($this, $function);
 
-        assertNull($function());
+        self::assertNull($function());
         unset($functionMock);
-        assertSame($originValue, $function());
+        self::assertSame($originValue, $function());
     }
 
     /**
@@ -48,6 +45,44 @@ class MockedFunctionTest extends TestCase
         $expected     = uniqid('', true);
         $functionMock = new MockedFunction($this, $function, self::once());
         $functionMock->getMocker()->willReturn($expected);
-        assertSame($expected, $function());
+        self::assertSame($expected, $function());
+    }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testCallOriginal(): void
+    {
+        /** @see \QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction */
+        $function      = '\QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction';
+        $originalValue = $function();
+        $extValue      = null;
+
+        $mock = new MockedFunction($this, $function, self::once());
+        // This was a bit tricky: we have to use `&$mock` to maintain variable-ref but not just object-ref
+        // to do proper object destuction
+        $mock->getMocker()->willReturnCallback(
+            static function () use (&$mock, &$extValue) {
+                $extValue = $mock->callOriginal();
+
+                return 'someFunction';
+            }
+        );
+
+        // is there any change?
+        self::assertNotEquals($originalValue, $function());
+
+        // call from outside
+        self::assertEquals($originalValue, $mock->callOriginal());
+
+        // call from closure
+        self::assertEquals($originalValue, $extValue);
+
+        // assigment is used instead of `unset` because closure have link (ref) to mock-object
+        // unsetting of local variable will not destruct object, but assigning variable to `null`
+        // will do the job
+        $mock = null;
+        self::assertEquals($originalValue, $function());
     }
 }

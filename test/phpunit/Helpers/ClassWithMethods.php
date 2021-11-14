@@ -50,6 +50,16 @@ class ClassWithMethods
         return __FUNCTION__;
     }
 
+    protected function protectedMethod(): string
+    {
+        return __FUNCTION__;
+    }
+
+    private function privateMethod(): string
+    {
+        return __FUNCTION__;
+    }
+
     protected static function protectedStaticMethod(): string
     {
         return __FUNCTION__;

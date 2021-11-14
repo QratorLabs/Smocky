@@ -5,3 +5,10 @@ parameters:
     - ./test
   bootstrapFiles:
     - ./test/phpstan/runkit7.stub.php
+  ignoreErrors:
+    - message: '/Parameter #2 \$code of class ReflectionException constructor expects int, mixed given\./'
+      paths:
+        - ./src/ClassMethod/UndefinedClassMethod.php
+        - ./src/Constant/MockedClassConstant.php
+        - ./src/Constant/UndefinedClassConstant.php
+        - ./src/Functions/UndefinedFunction.php

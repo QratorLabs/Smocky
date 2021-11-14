@@ -66,6 +66,16 @@ class MockedFunction
         }
     }
 
+    /**
+     * @param mixed ...$args
+     *
+     * @return mixed
+     */
+    public function callOriginal(...$args)
+    {
+        return $this->mockedFunction->callOriginal(...$args);
+    }
+
     public function getMocker(): InvocationMocker
     {
         return $this->invocationMocker;

@@ -38,8 +38,6 @@ class UndefinedFunction extends BaseFunction
 
     public function __destruct()
     {
-        if (isset($this->stashedName)) {
-            runkit7_function_rename($this->stashedName, $this->getFullName());
-        }
+        runkit7_function_rename($this->stashedName, $this->getFullName());
     }
 }

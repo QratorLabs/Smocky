@@ -14,7 +14,7 @@ ij_smart_tabs = false
 ij_wrap_on_typing = false
 ij_visual_guides = 100, 120
 
-[phpstan.neon]
+[{phpstan.neon,phpstan.neon.dist}]
 ij_visual_guides = none
 indent_size = 2
 

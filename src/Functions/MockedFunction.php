@@ -47,11 +47,20 @@ class MockedFunction extends UndefinedFunction
         runkit7_function_rename($tmpName, $this->getFullName());
     }
 
+    /**
+     * @param mixed ...$args
+     *
+     * @return mixed
+     */
+    public function callOriginal(...$args)
+    {
+        /** @phpstan-ignore-next-line */
+        return ($this->stashedName)(...$args);
+    }
+
     public function __destruct()
     {
-        if (isset($this->stashedName)) {
-            runkit7_function_remove($this->getFullName());
-            parent::__destruct();
-        }
+        runkit7_function_remove($this->getFullName());
+        parent::__destruct();
     }
 }

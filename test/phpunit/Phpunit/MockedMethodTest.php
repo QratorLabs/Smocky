@@ -9,11 +9,6 @@ use QratorLabs\Smocky\Phpunit\MockedMethod;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithMethods;
 use ReflectionException;
 
-use function PHPUnit\Framework\assertNotNull;
-use function PHPUnit\Framework\assertNull;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\never;
-use function PHPUnit\Framework\once;
 use function uniqid;
 
 /**
@@ -29,11 +24,11 @@ class MockedMethodTest extends TestCase
     {
         $object      = new ClassWithMethods();
         $originValue = $object->publicMethod();
-        assertNotNull($originValue);
+        self::assertNotNull($originValue);
         $methodMock = new MockedMethod($this, ClassWithMethods::class, 'publicMethod');
-        assertNull($object->publicMethod());
+        self::assertNull($object->publicMethod());
         unset($methodMock);
-        assertSame($originValue, $object->publicMethod());
+        self::assertSame($originValue, $object->publicMethod());
     }
 
     /**
@@ -42,11 +37,11 @@ class MockedMethodTest extends TestCase
     public function testMinimalStatic(): void
     {
         $originValue = ClassWithMethods::publicStaticMethod();
-        assertNotNull($originValue);
+        self::assertNotNull($originValue);
         $methodMock = new MockedMethod($this, ClassWithMethods::class, 'publicStaticMethod');
-        assertNull(ClassWithMethods::publicStaticMethod());
+        self::assertNull(ClassWithMethods::publicStaticMethod());
         unset($methodMock);
-        assertSame($originValue, ClassWithMethods::publicStaticMethod());
+        self::assertSame($originValue, ClassWithMethods::publicStaticMethod());
     }
 
     /**
@@ -58,7 +53,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicStaticMethod',
-            never()
+            self::never()
         );
     }
 
@@ -72,9 +67,38 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicStaticMethod',
-            once()
+            self::once()
         );
         $methodMock->getMocker()->willReturn($expected);
-        assertSame($expected, ClassWithMethods::publicStaticMethod());
+        self::assertSame($expected, ClassWithMethods::publicStaticMethod());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCallOriginalStatic(): void
+    {
+        $methodMock = new MockedMethod(
+            $this,
+            ClassWithMethods::class,
+            'publicStaticMethod',
+            self::never()
+        );
+        $methodMock->callOriginalStatic();
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCallOriginal(): void
+    {
+        $object     = new ClassWithMethods();
+        $methodMock = new MockedMethod(
+            $this,
+            ClassWithMethods::class,
+            'publicMethod',
+            self::never()
+        );
+        $methodMock->callOriginal($object);
     }
 }

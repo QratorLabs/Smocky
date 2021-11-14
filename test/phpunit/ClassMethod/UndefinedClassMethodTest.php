@@ -27,8 +27,8 @@ class UndefinedClassMethodTest extends TestCase
     }
 
     /**
-     * @param string                                 $class
-     * @param string                                 $method
+     * @param string $class
+     * @param string $method
      *
      * @throws ReflectionException
      *

@@ -11,10 +11,6 @@ use ReflectionFunction;
 
 use function is_file;
 use function microtime;
-use function PHPUnit\Framework\assertIsFloat;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertNotEquals;
-use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
 class MockedFunctionTest extends TestCase
@@ -32,9 +28,9 @@ class MockedFunctionTest extends TestCase
         $mock     = new MockedFunction($function, static function () use ($expected): string {
             return $expected;
         });
-        assertSame($expected, $function(__FILE__));
+        self::assertSame($expected, $function(__FILE__));
         unset($mock);
-        assertSame($originalValue, $function(__FILE__));
+        self::assertSame($originalValue, $function(__FILE__));
     }
 
     /**
@@ -49,9 +45,9 @@ class MockedFunctionTest extends TestCase
         $mock     = new MockedFunction($function, static function () use ($expected): string {
             return $expected;
         });
-        assertSame($expected, $function());
+        self::assertSame($expected, $function());
         unset($mock);
-        assertSame($originalValue, $function());
+        self::assertSame($originalValue, $function());
     }
 
     /**
@@ -72,14 +68,14 @@ class MockedFunctionTest extends TestCase
         $refC = new ReflectionFunction($closure);
 
         /** @phpstan-ignore-next-line */
-        assertNotEquals($refC->getReturnType()->getName(), $refO->getReturnType()->getName());
+        self::assertNotEquals($refC->getReturnType()->getName(), $refO->getReturnType()->getName());
 
         $mock = new MockedFunction($function, $closure);
-        assertSame($expected, $function());
-        assertIsFloat($function());
+        self::assertSame($expected, $function());
+        self::assertIsFloat($function());
         unset($mock);
-        assertSame($originalValue, $function());
-        assertIsString($function());
+        self::assertSame($originalValue, $function());
+        self::assertIsString($function());
     }
 
     public function testDefaultClosure(): void
@@ -88,5 +84,34 @@ class MockedFunctionTest extends TestCase
         self::assertNull(is_file(__FILE__));
         unset($mock);
         self::assertNotNull(is_file(__FILE__));
+    }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testCallOriginal(): void
+    {
+        /** @see \QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction */
+        $function      = '\QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction';
+        $originalValue = $function();
+        $extValue      = null;
+
+        /** @var MockedFunction $mock */
+        $mock = null; // Yes, it's a bit ridiculous, but it works for any checkers (phpstan/ide/etc)
+        $mock = new MockedFunction($function, static function () use (&$mock, &$extValue) {
+            $extValue = $mock->callOriginal();
+
+            return 'someString';
+        });
+
+        self::assertNotEquals($originalValue, $function());
+        self::assertEquals($originalValue, $mock->callOriginal());
+        self::assertEquals($originalValue, $extValue);
+        // assigment is used instead of `unset` because closure have link (ref) to mock-object
+        // unsetting of local variable will not destruct object, but assigning variable to `null`
+        // will do the job
+        $mock = null;
+        self::assertEquals($originalValue, $function());
     }
 }

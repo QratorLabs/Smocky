@@ -14,7 +14,12 @@ use ReflectionException;
 
 class MockedMethod
 {
-    /** @var MockedClassMethod */
+    /**
+     * @var MockedClassMethod
+     *
+     * It is safe to ignore "only write" error
+     * @phpstan-ignore-next-line
+     */
     private $mockedMethod;
 
     /** @var InvocationMocker */
@@ -42,21 +47,22 @@ class MockedMethod
         string $method,
         InvocationOrder $invocationRule = null
     ) {
-        $mockObject = $testCase->getMockBuilder(EmptyClass::class)
-                               ->disableOriginalConstructor()
-                               ->disableOriginalClone()
-                               ->disableArgumentCloning()
-                               ->disallowMockingUnknownTypes()
-                               ->addMethods([$method])
-                               ->getMock();
+        $this->mockObject = $testCase
+            ->getMockBuilder(EmptyClass::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->addMethods([$method])
+            ->getMock();
 
-        $this->mockObject = $mockObject;
         if ($invocationRule === null) {
-            $this->invocationMocker = $mockObject->method($method);
+            $this->invocationMocker = $this->mockObject->method($method);
         } else {
-            $this->invocationMocker = $mockObject->expects($invocationRule)->method($method);
+            $this->invocationMocker = $this->mockObject->expects($invocationRule)->method($method);
         }
 
+        $mockObject         = $this->mockObject;
         $this->mockedMethod = new MockedClassMethod(
             $class,
             $method,
@@ -69,6 +75,29 @@ class MockedMethod
                 return $mockObject->{$method}(...$args);
             }
         );
+    }
+
+    /**
+     * @param object $object
+     * @param mixed  ...$args
+     *
+     * @return void
+     * @throws ReflectionException
+     */
+    public function callOriginal($object, ...$args)
+    {
+        $this->mockedMethod->callOriginal($object, ...$args);
+    }
+
+    /**
+     * @param mixed ...$args
+     *
+     * @return void
+     * @throws ReflectionException
+     */
+    public function callOriginalStatic(...$args)
+    {
+        $this->mockedMethod->callOriginalStatic(...$args);
     }
 
     public function getMocker(): InvocationMocker

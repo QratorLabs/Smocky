@@ -7,6 +7,7 @@ namespace QratorLabs\Smocky\ClassMethod;
 use Closure;
 use ReflectionException;
 use ReflectionMethod;
+use RuntimeException;
 
 use function get_declared_classes;
 use function get_parent_class;
@@ -19,9 +20,6 @@ use const RUNKIT7_ACC_STATIC;
 
 class MockedClassMethod extends UndefinedClassMethod
 {
-
-    /** @var Closure */
-    protected $closure;
 
     /**
      * @var array<string, self>
@@ -42,11 +40,6 @@ class MockedClassMethod extends UndefinedClassMethod
      */
     public function __construct(string $class, string $method, Closure $closure = null)
     {
-        $this->closure =
-            $closure ??
-            static function (): void {
-            };
-
         parent::__construct($class, $method);
 
         $reflection = new ReflectionMethod($this->class, $this->stashedName);
@@ -54,7 +47,11 @@ class MockedClassMethod extends UndefinedClassMethod
 
         $flags |= $this->getVisibility($reflection);
 
-        $closure = $this->closure;
+        $closureUse =
+            $closure ??
+            static function (): void {
+            };
+
         runkit7_method_add(
             $this->class,
             $this->method,
@@ -63,13 +60,59 @@ class MockedClassMethod extends UndefinedClassMethod
              *
              * @return mixed
              */
-            static function (...$args) use ($closure) {
-                return $closure(...$args);
+            static function (...$args) use ($closureUse) {
+                return $closureUse(...$args);
             },
             $flags
         );
 
         $this->stubChildrenMethods();
+    }
+
+    /**
+     * @param object|null $object
+     * @param mixed       ...$args
+     *
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public function callOriginal($object, ...$args)
+    {
+        if (!($object instanceof $this->class)) {
+            throw new RuntimeException('Object of "' . $this->class . '" expected.');
+        }
+        $ref = (new ReflectionMethod($this->class, $this->stashedName));
+        if ($ref->isStatic()) {
+            throw new RuntimeException(
+                'Method "' . $this->class . '::' . $this->method . '" is static and cannot be called dynamically.'
+            );
+        }
+        if (!$ref->isPublic()) {
+            $ref->setAccessible(true);
+        }
+
+        return $ref->invoke($object, ...$args);
+    }
+
+    /**
+     * @param mixed ...$args
+     *
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public function callOriginalStatic(...$args)
+    {
+        $ref = (new ReflectionMethod($this->class, $this->stashedName));
+        if (!$ref->isStatic()) {
+            throw new RuntimeException(
+                'Method "' . $this->class . '::' . $this->method . '" is dynamic and cannot be called statically.'
+            );
+        }
+        if (!$ref->isPublic()) {
+            $ref->setAccessible(true);
+        }
+
+        return $ref->invoke(null, ...$args);
     }
 
     public function __destruct()
