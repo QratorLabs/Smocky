@@ -3,7 +3,7 @@
   "description": "Mocking library based on runkit",
   "homepage": "https://github.com/QratorLabs/Smocky",
   "support": {
-    "issues": "https://github.com/QratorLabs/Smocky/issues",
+    "issues": "https://github.com/QratorLabs/Smocky/issues"
   },
   "type": "library",
   "license": "MIT",
