@@ -21,7 +21,6 @@ use function uniqid;
  */
 class UndefinedGlobalConstantTest extends TestCase
 {
-
     public function testMissingConstantException(): void
     {
         $this->expectException(ReflectionException::class);

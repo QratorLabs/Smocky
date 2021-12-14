@@ -11,7 +11,6 @@ use function runkit7_function_rename;
 
 class UndefinedFunction extends BaseFunction
 {
-
     /**
      * @param string $function
      *

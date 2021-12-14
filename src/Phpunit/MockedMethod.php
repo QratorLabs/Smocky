@@ -16,9 +16,6 @@ class MockedMethod
 {
     /**
      * @var MockedClassMethod
-     *
-     * It is safe to ignore "only write" error
-     * @phpstan-ignore-next-line
      */
     private $mockedMethod;
 

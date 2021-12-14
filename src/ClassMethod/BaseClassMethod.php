@@ -8,7 +8,6 @@ use QratorLabs\Smocky\MockedEntity;
 
 abstract class BaseClassMethod extends MockedEntity
 {
-
     /**
      * @var string
      * @phpstan-var class-string

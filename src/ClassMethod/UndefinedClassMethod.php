@@ -11,7 +11,6 @@ use function runkit7_method_rename;
 
 class UndefinedClassMethod extends BaseClassMethod
 {
-
     /**
      * @param string               $class
      * @param string               $method

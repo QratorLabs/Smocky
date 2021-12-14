@@ -19,7 +19,6 @@ use function uniqid;
  */
 class MockedClassMethodTest extends TestCase
 {
-
     public function testMissingMethod(): void
     {
         $this->expectException(ReflectionException::class);

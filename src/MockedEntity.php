@@ -16,7 +16,6 @@ use const RUNKIT7_ACC_PUBLIC;
 
 abstract class MockedEntity
 {
-
     /**
      * All cleanups should be done here
      *

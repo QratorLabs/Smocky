@@ -13,7 +13,6 @@ use const RUNKIT7_ACC_PUBLIC;
 
 class UndefinedGlobalConstant extends MockedGlobalConstant
 {
-
     /**
      * MockedConstant constructor.
      *

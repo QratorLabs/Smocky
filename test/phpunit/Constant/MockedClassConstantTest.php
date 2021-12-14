@@ -19,7 +19,6 @@ use function uniqid;
  */
 class MockedClassConstantTest extends TestCase
 {
-
     public function testMissingConstantException(): void
     {
         $this->expectException(ReflectionException::class);

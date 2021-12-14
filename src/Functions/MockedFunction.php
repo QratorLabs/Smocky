@@ -13,7 +13,6 @@ use function runkit7_function_rename;
 
 class MockedFunction extends UndefinedFunction
 {
-
     /** @var Closure */
     protected $closure;
 

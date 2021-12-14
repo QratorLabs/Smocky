@@ -14,7 +14,6 @@ use const RUNKIT7_ACC_PUBLIC;
 
 class MockedGlobalConstant extends BaseConstant
 {
-
     /**
      * MockedConstant constructor.
      *

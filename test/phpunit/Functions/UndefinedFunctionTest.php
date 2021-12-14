@@ -10,7 +10,6 @@ use ReflectionException;
 
 class UndefinedFunctionTest extends TestCase
 {
-
     public function testMissingFunction(): void
     {
         $this->expectException(ReflectionException::class);

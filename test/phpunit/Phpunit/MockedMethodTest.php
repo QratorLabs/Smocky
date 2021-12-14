@@ -16,7 +16,6 @@ use function uniqid;
  */
 class MockedMethodTest extends TestCase
 {
-
     /**
      * @throws ReflectionException
      */

@@ -12,7 +12,6 @@ use ReflectionClassConstant;
  */
 class ClassWithConstants
 {
-
     public const    CONST_PUBLIC    = 'CONST_PUBLIC';
     protected const CONST_PROTECTED = 'CONST_PROTECTED';
     private const   CONST_PRIVATE   = 'CONST_PRIVATE';

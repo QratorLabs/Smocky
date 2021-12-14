@@ -8,7 +8,6 @@ use QratorLabs\Smocky\MockedEntity;
 
 abstract class BaseFunction extends MockedEntity
 {
-
     /**
      * @var ?string
      */

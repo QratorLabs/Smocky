@@ -9,5 +9,4 @@ namespace QratorLabs\Smocky\Test\PhpUnit\Helpers;
  */
 class ExtendedClassWithMethods extends ClassWithMethods
 {
-
 }

@@ -13,7 +13,6 @@ use ReflectionMethod;
  */
 class ClassWithMethods
 {
-
     public static function publicStaticMethod(): string
     {
         return __FUNCTION__;

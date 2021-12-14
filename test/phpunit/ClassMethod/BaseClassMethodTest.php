@@ -15,14 +15,12 @@ use function uniqid;
  */
 class BaseClassMethodTest extends TestCase
 {
-
     public function testClassMethodGetters(): void
     {
         $class  = self::class;
         $method = strtr(uniqid('', true), '.', '_');
 
         $dummy = new class ($class, $method) extends BaseClassMethod {
-
             public function __construct(string $class, string $method)
             {
                 $this->class  = $class;

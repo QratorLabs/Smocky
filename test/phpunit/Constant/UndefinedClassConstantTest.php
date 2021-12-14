@@ -21,7 +21,6 @@ use function PHPUnit\Framework\assertSame;
  */
 class UndefinedClassConstantTest extends TestCase
 {
-
     public function testMissingConstantException(): void
     {
         $this->expectException(ReflectionException::class);

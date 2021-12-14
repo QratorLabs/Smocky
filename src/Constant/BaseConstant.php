@@ -8,7 +8,6 @@ use QratorLabs\Smocky\MockedEntity;
 
 abstract class BaseConstant extends MockedEntity
 {
-
     /** @var string */
     protected $name;
 

@@ -20,7 +20,6 @@ use const RUNKIT7_ACC_STATIC;
 
 class MockedClassMethod extends UndefinedClassMethod
 {
-
     /**
      * @var array<string, self>
      * @phpstan-var array<class-string, self>
