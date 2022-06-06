@@ -10,9 +10,6 @@ use ReflectionException;
 
 use function constant;
 use function define;
-use function PHPUnit\Framework\assertFalse;
-use function PHPUnit\Framework\assertNotEquals;
-use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
 /**
@@ -27,18 +24,18 @@ class MockedGlobalConstantTest extends TestCase
     {
         $constantName  = uniqid('CONST_', false);
         $originalValue = uniqid('VALUE_', true);
-        assertFalse(defined($constantName));
+        self::assertFalse(defined($constantName));
 
         define($constantName, $originalValue);
-        assertSame($originalValue, constant($constantName));
+        self::assertSame($originalValue, constant($constantName));
 
         $mockedValue = 'someValue';
-        assertNotEquals($mockedValue, $originalValue);
+        self::assertNotEquals($mockedValue, $originalValue);
         $mockedConstant = new MockedGlobalConstant($constantName, $mockedValue);
 
-        assertSame($mockedValue, constant($constantName));
+        self::assertSame($mockedValue, constant($constantName));
 
         unset($mockedConstant);
-        assertSame($originalValue, constant($constantName));
+        self::assertSame($originalValue, constant($constantName));
     }
 }

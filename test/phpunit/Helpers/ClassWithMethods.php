@@ -49,11 +49,13 @@ class ClassWithMethods
         return __FUNCTION__;
     }
 
+    /** @noinspection PhpUnused */
     protected function protectedMethod(): string
     {
         return __FUNCTION__;
     }
 
+    /** @noinspection PhpUnusedPrivateMethodInspection */
     private function privateMethod(): string
     {
         return __FUNCTION__;

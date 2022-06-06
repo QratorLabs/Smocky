@@ -12,8 +12,6 @@ use ReflectionException;
 use ReflectionMethod;
 
 use function array_reduce;
-use function PHPUnit\Framework\assertContains;
-use function PHPUnit\Framework\assertNotContains;
 
 /**
  * @internal
@@ -40,13 +38,13 @@ class UndefinedClassMethodTest extends TestCase
     public function testRemoveMethod(string $class, string $method): void
     {
         $classReflection = new ReflectionClass($class);
-        assertContains($method, self::helperGetReflectionMethodNames($classReflection));
+        self::assertContains($method, self::helperGetReflectionMethodNames($classReflection));
 
         $undefinedMethod = new UndefinedClassMethod($class, $method);
-        assertNotContains($method, self::helperGetReflectionMethodNames($classReflection));
+        self::assertNotContains($method, self::helperGetReflectionMethodNames($classReflection));
 
         unset($undefinedMethod);
-        assertContains($method, self::helperGetReflectionMethodNames($classReflection));
+        self::assertContains($method, self::helperGetReflectionMethodNames($classReflection));
     }
 
     /**

@@ -27,8 +27,6 @@ class MockedFunction
      * @param InvocationOrder|null $invocationRule
      *
      * @throws ReflectionException
-     *
-     * @noinspection UnusedConstructorDependenciesInspection
      */
     public function __construct(
         TestCase $testCase,

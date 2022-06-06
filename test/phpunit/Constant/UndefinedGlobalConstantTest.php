@@ -11,9 +11,6 @@ use ReflectionException;
 use function constant;
 use function define;
 use function defined;
-use function PHPUnit\Framework\assertFalse;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertTrue;
 use function uniqid;
 
 /**
@@ -44,20 +41,20 @@ class UndefinedGlobalConstantTest extends TestCase
         $originalValue = constant($constantName);
 
         // check #0: validate test data
-        assertTrue(defined($constantName));
+        self::assertTrue(defined($constantName));
 
         // task #1: remove constant
         $mockedConst = new UndefinedGlobalConstant($constantName);
 
         // check #1: constant is missing
-        assertFalse(defined($constantName));
+        self::assertFalse(defined($constantName));
 
         // check #2: stored value is safe
-        assertSame($originalValue, $mockedConst->getValue());
+        self::assertSame($originalValue, $mockedConst->getValue());
 
         // task #2: revert changes
         unset($mockedConst);
 
-        assertSame($originalValue, constant($constantName));
+        self::assertSame($originalValue, constant($constantName));
     }
 }

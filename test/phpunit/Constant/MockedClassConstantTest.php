@@ -11,7 +11,6 @@ use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;
 
-use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
 /**
@@ -36,16 +35,16 @@ class MockedClassConstantTest extends TestCase
         $mockedConst = new MockedClassConstant(ClassWithConstants::class, 'CONST_PUBLIC', 222);
 
         // check #1: value override (main target)
-        assertSame(222, ClassWithConstants::CONST_PUBLIC);
+        self::assertSame(222, ClassWithConstants::CONST_PUBLIC);
 
         // check #1: stored value
-        assertSame($originalValue, $mockedConst->getValue());
+        self::assertSame($originalValue, $mockedConst->getValue());
 
         // task #2: remove object - changes should be reverted
         unset($mockedConst);
 
         // check #3: constant now having original value
-        assertSame($originalValue, ClassWithConstants::CONST_PUBLIC);
+        self::assertSame($originalValue, ClassWithConstants::CONST_PUBLIC);
     }
 
     /**
@@ -70,14 +69,14 @@ class MockedClassConstantTest extends TestCase
         $mockedConst = new MockedClassConstant($class, $constantName, $newValue);
 
         // check #1: value override (main target)
-        assertSame($newValue, $classReflection->getConstants()[$constantName]);
+        self::assertSame($newValue, $classReflection->getConstants()[$constantName]);
         // check #2: stored value
-        assertSame($originalValue, $mockedConst->getValue());
+        self::assertSame($originalValue, $mockedConst->getValue());
 
         // task #2: destroy object (and revert changes)
         unset($mockedConst);
 
         // check #3: changes are revered
-        assertSame($originalValue, $classReflection->getConstants()[$constantName]);
+        self::assertSame($originalValue, $classReflection->getConstants()[$constantName]);
     }
 }

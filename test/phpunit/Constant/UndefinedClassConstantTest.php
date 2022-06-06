@@ -12,10 +12,6 @@ use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;
 
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertArrayNotHasKey;
-use function PHPUnit\Framework\assertSame;
-
 /**
  * @internal
  */
@@ -104,22 +100,22 @@ class UndefinedClassConstantTest extends TestCase
         unset($constantReflection);
 
         // check #0: validate test data
-        assertArrayHasKey($constantName, $classReflection->getConstants());
+        self::assertArrayHasKey($constantName, $classReflection->getConstants());
 
         // task #1: remove constant
         $mockedConst = new UndefinedClassConstant($class, $constantName);
 
         // check #1: constant is missing
-        assertArrayNotHasKey($constantName, $classReflection->getConstants());
+        self::assertArrayNotHasKey($constantName, $classReflection->getConstants());
 
         // check #2: stored value is safe
-        assertSame($originalValue, $mockedConst->getValue());
+        self::assertSame($originalValue, $mockedConst->getValue());
 
         // task #2: revert changes
         unset($mockedConst);
 
         $constantReflection = new ReflectionClassConstant($class, $constantName);
         $revertedValue      = $constantReflection->getValue();
-        assertSame($originalValue, $revertedValue);
+        self::assertSame($originalValue, $revertedValue);
     }
 }

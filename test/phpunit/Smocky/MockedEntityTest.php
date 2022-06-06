@@ -9,12 +9,10 @@ use QratorLabs\Smocky\MockedEntity;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithMethods;
 use ReflectionClassConstant;
+use ReflectionException;
 use ReflectionMethod;
 
 use function constant;
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertNotSame;
-use function PHPUnit\Framework\assertStringContainsString;
 use function strtoupper;
 
 /**
@@ -45,20 +43,23 @@ class MockedEntityTest extends TestCase
 
         // check #1: contains basename
         $basename = 'someName';
-        assertStringContainsString($basename, $helper->getStashedNamePublic($basename));
+        self::assertStringContainsString($basename, $helper->getStashedNamePublic($basename));
 
         // check #2: contains basename and prefix
         $prefix = 'somePrefix';
         $name   = $helper->getStashedNamePublic($basename, $prefix);
-        assertStringContainsString($basename, $name);
-        assertStringContainsString($prefix, $name);
+        self::assertStringContainsString($basename, $name);
+        self::assertStringContainsString($prefix, $name);
 
         // check #3: unique
         // yep, I know that we can't call `uniqid()` in true parallel,
         // but let's make it look like pretty close calls
-        assertNotSame($helper->getStashedNamePublic($basename), $helper->getStashedNamePublic($basename));
+        self::assertNotSame($helper->getStashedNamePublic($basename), $helper->getStashedNamePublic($basename));
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testGetVisibility(): void
     {
         $mock   = $this->getMockForAbstractClass(MockedEntity::class, []);
@@ -66,14 +67,14 @@ class MockedEntityTest extends TestCase
         $method->setAccessible(true);
 
         foreach (ClassWithConstants::getDataForTests() as $key => $item) {
-            assertEquals(
+            self::assertEquals(
                 constant('RUNKIT7_ACC_' . strtoupper($key)),
                 $method->invoke($mock, new ReflectionClassConstant($item[0], $item[1]))
             );
         }
         foreach (ClassWithMethods::getDataForTests() as $key => $item) {
             [$vis] = explode(' ', $key);
-            assertEquals(
+            self::assertEquals(
                 constant('RUNKIT7_ACC_' . strtoupper($vis)),
                 $method->invoke($mock, new ReflectionMethod($item[0], $item[1]))
             );

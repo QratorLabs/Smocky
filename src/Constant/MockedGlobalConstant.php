@@ -26,7 +26,7 @@ class MockedGlobalConstant extends BaseConstant
     public function __construct(string $constantName, $newValue)
     {
         if (!defined($constantName)) {
-            throw new ReflectionException("Constant {$constantName} is not defined");
+            throw new ReflectionException("Constant $constantName is not defined");
         }
 
         $this->name  = $constantName;

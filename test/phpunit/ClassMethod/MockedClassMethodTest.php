@@ -11,7 +11,6 @@ use QratorLabs\Smocky\Test\PhpUnit\Helpers\ExtendedClassWithMethods;
 use ReflectionException;
 use RuntimeException;
 
-use function PHPUnit\Framework\assertSame;
 use function uniqid;
 
 /**
@@ -188,7 +187,7 @@ class MockedClassMethodTest extends TestCase
     {
         $object = new ClassWithMethods();
         $method = new MockedClassMethod(ClassWithMethods::class, 'privateMethod');
-        assertSame('privateMethod', $method->callOriginal($object));
+        self::assertSame('privateMethod', $method->callOriginal($object));
     }
 
     /**
@@ -199,6 +198,6 @@ class MockedClassMethodTest extends TestCase
     {
         $object = new ClassWithMethods();
         $method = new MockedClassMethod(ClassWithMethods::class, 'protectedMethod');
-        assertSame('protectedMethod', $method->callOriginal($object));
+        self::assertSame('protectedMethod', $method->callOriginal($object));
     }
 }
