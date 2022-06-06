@@ -78,23 +78,23 @@ class MockedMethod
      * @param object $object
      * @param mixed  ...$args
      *
-     * @return void
+     * @return mixed
      * @throws ReflectionException
      */
     public function callOriginal($object, ...$args)
     {
-        $this->mockedMethod->callOriginal($object, ...$args);
+        return $this->mockedMethod->callOriginal($object, ...$args);
     }
 
     /**
      * @param mixed ...$args
      *
-     * @return void
+     * @return mixed
      * @throws ReflectionException
      */
     public function callOriginalStatic(...$args)
     {
-        $this->mockedMethod->callOriginalStatic(...$args);
+        return $this->mockedMethod->callOriginalStatic(...$args);
     }
 
     public function getMocker(): InvocationMocker

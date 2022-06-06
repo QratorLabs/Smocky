@@ -9,6 +9,7 @@ use QratorLabs\Smocky\Phpunit\MockedMethod;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithMethods;
 use ReflectionException;
 
+use function get_class;
 use function uniqid;
 
 /**
@@ -99,5 +100,89 @@ class MockedMethodTest extends TestCase
             self::never()
         );
         $methodMock->callOriginal($object);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCallOriginalWithReturn(): void
+    {
+        $object        = new ClassWithMethods();
+        $originalValue = $object->publicMethod();
+        $methodMock    = new MockedMethod(
+            $this,
+            ClassWithMethods::class,
+            'publicMethod',
+            self::exactly(2)
+        );
+        $methodMock->getMocker()->willReturnCallback(static function () use ($object, $methodMock) {
+            static $firstTime = true;
+            if ($firstTime) {
+                $firstTime = false;
+
+                return $methodMock->callOriginal($object);
+            }
+
+            return 'mockedMethod';
+        });
+        self::assertSame($originalValue, $object->publicMethod());
+        self::assertSame('mockedMethod', $object->publicMethod());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCallOriginalStaticWithReturn(): void
+    {
+        $originalValue = ClassWithMethods::publicStaticMethod();
+        $methodMock    = new MockedMethod(
+            $this,
+            ClassWithMethods::class,
+            'publicStaticMethod',
+            self::exactly(2)
+        );
+        $methodMock->getMocker()->willReturnCallback(static function () use (&$methodMock) {
+            static $firstTime = true;
+            if ($firstTime) {
+                $firstTime = false;
+
+                return $methodMock->callOriginalStatic();
+            }
+
+            return 'mockedMethod';
+        });
+        self::assertSame($originalValue, ClassWithMethods::publicStaticMethod());
+        self::assertSame('mockedMethod', ClassWithMethods::publicStaticMethod());
+        $methodMock = null;
+        self::assertSame($originalValue, ClassWithMethods::publicStaticMethod());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCallOriginalWithSideEffect(): void
+    {
+        $object = new class {
+            /** @var string */
+            public $value = 'initial';
+
+            public function getValue(): string
+            {
+                return $this->value;
+            }
+        };
+
+        self::assertSame('initial', $object->getValue());
+        $mock = new MockedMethod($this, get_class($object), 'getValue', self::once());
+        $mock->getMocker()->willReturnCallback(static function () use ($object) {
+            $object->value = 'changed';
+
+            return 'mocked';
+        });
+
+        self::assertSame('mocked', $object->getValue());
+        unset($mock);
+        self::assertSame('changed', $object->getValue());
+        self::assertSame('changed', $object->value);
     }
 }
