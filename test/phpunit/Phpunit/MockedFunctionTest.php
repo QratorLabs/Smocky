@@ -61,7 +61,7 @@ class MockedFunctionTest extends TestCase
 
         $mock = new MockedFunction($this, $function, self::once());
         // This was a bit tricky: we have to use `&$mock` to maintain variable-ref but not just object-ref
-        // to do proper object destuction
+        // to do proper object destruction
         $mock->getMocker()->willReturnCallback(
             static function () use (&$mock, &$extValue) {
                 $extValue = $mock->callOriginal();
