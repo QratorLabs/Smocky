@@ -1,5 +1,6 @@
 {
   "name": "qratorlabs/smocky",
+  "version" : "1.2.2",
   "description": "Mocking library based on runkit",
   "homepage": "https://github.com/QratorLabs/Smocky",
   "support": {
