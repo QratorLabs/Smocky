@@ -5,3 +5,6 @@ parameters:
     - ./test
   bootstrapFiles:
     - ./test/phpstan/runkit7.stub.php
+  ignoreErrors:
+    - path: test/phpunit/Helpers/ClassWithMethods.php
+      message: '/^Method .*\\ClassWithMethods::privateMethod\(\) is unused\.$/'

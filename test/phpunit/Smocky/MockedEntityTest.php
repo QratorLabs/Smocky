@@ -62,7 +62,11 @@ class MockedEntityTest extends TestCase
      */
     public function testGetVisibility(): void
     {
-        $mock   = $this->getMockForAbstractClass(MockedEntity::class, []);
+        $mock = new class extends MockedEntity {
+            public function __destruct()
+            {
+            }
+        };
         $method = new ReflectionMethod(MockedEntity::class, 'getVisibility');
         $method->setAccessible(true);
 

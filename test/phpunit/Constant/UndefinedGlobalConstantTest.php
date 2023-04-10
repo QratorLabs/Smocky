@@ -7,11 +7,17 @@ namespace QratorLabs\Smocky\Test\PhpUnit\Constant;
 use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\UndefinedGlobalConstant;
 use ReflectionException;
+use RuntimeException;
+use Throwable;
 
 use function constant;
 use function define;
 use function defined;
+use function get_class;
+use function set_error_handler;
 use function uniqid;
+
+use const E_WARNING;
 
 /**
  * @internal
@@ -26,8 +32,24 @@ class UndefinedGlobalConstantTest extends TestCase
 
     public function testOnlyUserDefined(): void
     {
-        $this->expectWarning();
-        new UndefinedGlobalConstant('PHP_VERSION');
+        $ex  = new class extends RuntimeException {
+        };
+        $cls = get_class($ex);
+
+        $prev = set_error_handler(static function (int $errno, string $errstr) use ($cls) {
+            throw new $cls($errstr, $errno);
+        }, E_WARNING);
+
+
+        $this->expectException($cls);
+        try {
+            new UndefinedGlobalConstant('PHP_VERSION');
+        } catch (Throwable $ex) {
+            if ($prev) {
+                set_error_handler($prev);
+            }
+            throw $ex;
+        }
     }
 
     /**

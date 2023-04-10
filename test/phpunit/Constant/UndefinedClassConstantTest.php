@@ -11,6 +11,13 @@ use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;
+use RuntimeException;
+use Throwable;
+
+use function get_class;
+use function set_error_handler;
+
+use const E_WARNING;
 
 /**
  * @internal
@@ -36,6 +43,7 @@ class UndefinedClassConstantTest extends TestCase
      * @param string               $constantName
      *
      * @throws ReflectionException
+     * @throws Throwable
      *
      * @dataProvider dataCoreConstants
      *
@@ -46,8 +54,24 @@ class UndefinedClassConstantTest extends TestCase
      */
     public function testCoreConstants(string $class, string $constantName): void
     {
-        $this->expectWarning();
-        new UndefinedClassConstant($class, $constantName);
+        $ex = new class extends RuntimeException {
+        };
+        $cls = get_class($ex);
+
+        $prev = set_error_handler(static function (int $errno, string $errstr) use ($cls) {
+            throw new $cls($errstr, $errno);
+        }, E_WARNING);
+
+
+        $this->expectException($cls);
+        try {
+            new UndefinedClassConstant($class, $constantName);
+        } catch (Throwable $ex) {
+            if ($prev) {
+                set_error_handler($prev);
+            }
+            throw $ex;
+        }
     }
 
     /**

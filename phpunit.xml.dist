@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
-         backupGlobals="true"
-         cacheResultFile="./test/phpunit.cache.xml"
-         verbose="true">
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+        backupGlobals="true"
+        cacheResultFile="./test/phpunit.cache.xml"
+>
   <coverage>
     <include>
       <directory suffix=".php">./src</directory>
