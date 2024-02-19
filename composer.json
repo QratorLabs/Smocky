@@ -41,7 +41,7 @@
   "scripts": {
     "phpstan": "phpstan analyse",
     "phpunit": "phpunit",
-    "phpcs": "phpcs ",
+    "phpcs": "phpcs",
     "phpcbf": "phpcbf"
   }
 }
