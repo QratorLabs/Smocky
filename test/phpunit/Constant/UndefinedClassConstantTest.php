@@ -24,12 +24,6 @@ use const E_WARNING;
  */
 class UndefinedClassConstantTest extends TestCase
 {
-    public function testMissingConstantException(): void
-    {
-        $this->expectException(ReflectionException::class);
-        new UndefinedClassConstant(ClassWithConstants::class, 'CONST_UNDEFINED');
-    }
-
     /**
      * @return Generator<string, array{string, string}>
      */
@@ -54,11 +48,11 @@ class UndefinedClassConstantTest extends TestCase
      */
     public function testCoreConstants(string $class, string $constantName): void
     {
-        $ex = new class extends RuntimeException {
+        $ex  = new class extends RuntimeException {
         };
         $cls = get_class($ex);
 
-        $prev = set_error_handler(static function (int $errno, string $errstr) use ($cls) {
+        set_error_handler(static function (int $errno, string $errstr) use ($cls) {
             throw new $cls($errstr, $errno);
         }, E_WARNING);
 
@@ -66,12 +60,15 @@ class UndefinedClassConstantTest extends TestCase
         $this->expectException($cls);
         try {
             new UndefinedClassConstant($class, $constantName);
-        } catch (Throwable $ex) {
-            if ($prev) {
-                set_error_handler($prev);
-            }
-            throw $ex;
+        } finally {
+            restore_error_handler();
         }
+    }
+
+    public function testMissingConstantException(): void
+    {
+        $this->expectException(ReflectionException::class);
+        new UndefinedClassConstant(ClassWithConstants::class, 'CONST_UNDEFINED');
     }
 
     /**

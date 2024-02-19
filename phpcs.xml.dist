@@ -7,9 +7,10 @@
     <arg name="basepath" value="."/>
     <arg name="extensions" value="php"/>
     <arg name="report" value="full"/>
-    <arg name="ignore" value="vendor"/>
     <arg value="psv"/>
     <config name="ignore_warnings_on_exit" value="1"/>
+    <arg name="cache" value="./test/caches/phpcs.cache"/>
+    <arg name="ignore" value="vendor,test/caches"/>
 
     <!-- Target -->
     <file>./src</file>
