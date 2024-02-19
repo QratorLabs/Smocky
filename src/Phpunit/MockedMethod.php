@@ -15,7 +15,7 @@ use ReflectionException;
 
 use function assert;
 
-class MockedMethod
+class MockedMethod extends AbstractMocked
 {
     /**
      * @var MockedClassMethod
@@ -47,25 +47,7 @@ class MockedMethod
         string $method,
         InvocationOrder $invocationRule = null
     ) {
-        $mockObject = (new Generator())->testDouble(
-            EmptyClass::class,
-            true,
-            true,
-            [$method],
-            [],
-            '',
-            false,
-            false,
-            true,
-            false,
-            false,
-            null,
-            false
-        );
-        assert($mockObject instanceof EmptyClass);
-        assert($mockObject instanceof MockObject);
-        $this->mockObject = $mockObject;
-        $testCase->registerMockObject($this->mockObject);
+        $this->mockObject = self::createEmptyMock($testCase, $method);
 
         if ($invocationRule === null) {
             $this->invocationMocker = $this->mockObject->method($method);

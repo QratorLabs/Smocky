@@ -12,3 +12,5 @@ parameters:
   ignoreErrors:
     - path: test/phpunit/Helpers/ClassWithMethods.php
       message: '/^Method .*\\ClassWithMethods::privateMethod\(\) is unused\.$/'
+    - path: src/Phpunit/AbstractMocked.php
+      message: '/^Parameter #\d+ \S+ of method PHPUnit\\Framework\\MockObject\\Generator\\Generator::testDouble\(\)/'
