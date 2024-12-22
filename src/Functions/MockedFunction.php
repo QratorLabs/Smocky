@@ -22,7 +22,7 @@ class MockedFunction extends UndefinedFunction
      *
      * @throws ReflectionException
      */
-    public function __construct(string $function, Closure $closure = null)
+    public function __construct(string $function, ?Closure $closure = null)
     {
         $this->closure =
             $closure ??

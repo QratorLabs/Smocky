@@ -37,7 +37,7 @@ class MockedClassMethod extends UndefinedClassMethod
      * @noinspection PhpUndefinedClassInspection
      * @noinspection PhpExpressionResultUnusedInspection
      */
-    public function __construct(string $class, string $method, Closure $closure = null)
+    public function __construct(string $class, string $method, ?Closure $closure = null)
     {
         parent::__construct($class, $method);
 

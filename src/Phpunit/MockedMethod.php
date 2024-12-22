@@ -12,18 +12,18 @@ use QratorLabs\Smocky\ClassMethod\MockedClassMethod;
 use QratorLabs\Smocky\EmptyClass;
 use ReflectionException;
 
+use function assert;
+
 class MockedMethod
 {
+    /** @var InvocationMocker */
+    private $invocationMocker;
+    /** @var MockObject */
+    private $mockObject;
     /**
      * @var MockedClassMethod
      */
     private $mockedMethod;
-
-    /** @var InvocationMocker */
-    private $invocationMocker;
-
-    /** @var MockObject */
-    private $mockObject;
 
     /**
      * MockedMethod constructor.
@@ -42,8 +42,9 @@ class MockedMethod
         TestCase $testCase,
         string $class,
         string $method,
-        InvocationOrder $invocationRule = null
+        ?InvocationOrder $invocationRule = null
     ) {
+        assert($method !== '');
         $this->mockObject = $testCase
             ->getMockBuilder(EmptyClass::class)
             ->disableOriginalConstructor()

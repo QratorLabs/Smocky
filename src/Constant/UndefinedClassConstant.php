@@ -33,7 +33,6 @@ class UndefinedClassConstant extends UndefinedGlobalConstant
     public function __construct(string $class, string $constantName)
     {
         try {
-            $a = ReflectionClass::IS_FINAL;
             $reflection = new ReflectionClassConstant($class, $constantName);
         } catch (Throwable $exception) {
             throw new ReflectionException(
@@ -46,7 +45,6 @@ class UndefinedClassConstant extends UndefinedGlobalConstant
         $this->value      = $reflection->getValue();
         $this->visibility = $this->getVisibility($reflection);
         runkit7_constant_remove($this->name);
-        $b = ReflectionClass::IS_FINAL;
     }
 
     /**

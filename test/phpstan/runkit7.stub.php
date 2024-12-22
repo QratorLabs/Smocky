@@ -48,7 +48,7 @@ if (!defined('RUNKIT7_ACC_PUBLIC')) {
      *
      * @return bool - TRUE on success or FALSE on failure.
      */
-    function runkit7_constant_redefine(string $constName, $value, int $newVisibility = null): bool
+    function runkit7_constant_redefine(string $constName, $value, ?int $newVisibility = null): bool
     {
         return false;
     }
@@ -94,8 +94,8 @@ if (!defined('RUNKIT7_ACC_PUBLIC')) {
         string $methodName,
         Closure $closure,
         int $flags = RUNKIT7_ACC_PUBLIC,
-        string $doc_comment = null,
-        bool $is_strict = null
+        ?string $doc_comment = null,
+        ?bool $is_strict = null
     ): bool {
         return false;
     }

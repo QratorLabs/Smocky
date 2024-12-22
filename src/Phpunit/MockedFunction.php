@@ -11,13 +11,14 @@ use QratorLabs\Smocky\EmptyClass;
 use QratorLabs\Smocky\Functions\MockedFunction as GenericMockedFunction;
 use ReflectionException;
 
+use function assert;
+
 class MockedFunction
 {
-    /** @var GenericMockedFunction */
-    private $mockedFunction;
-
     /** @var InvocationMocker */
     private $invocationMocker;
+    /** @var GenericMockedFunction */
+    private $mockedFunction;
 
     /**
      * MockedMethod constructor.
@@ -31,7 +32,7 @@ class MockedFunction
     public function __construct(
         TestCase $testCase,
         string $function,
-        InvocationOrder $invocationRule = null
+        ?InvocationOrder $invocationRule = null
     ) {
         $mockObject = null;
         $method     = null;
@@ -48,14 +49,16 @@ class MockedFunction
             }
         );
 
-        $method     = $this->mockedFunction->getShortName();
-        $mockObject = $testCase->getMockBuilder(EmptyClass::class)
-                               ->disableOriginalConstructor()
-                               ->disableOriginalClone()
-                               ->disableArgumentCloning()
-                               ->disallowMockingUnknownTypes()
-                               ->addMethods([$method])
-                               ->getMock();
+        $method = $this->mockedFunction->getShortName();
+        assert($method !== '');
+        $mockObject = $testCase
+            ->getMockBuilder(EmptyClass::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->addMethods([$method])
+            ->getMock();
 
         if ($invocationRule === null) {
             $this->invocationMocker = $mockObject->method($method);
