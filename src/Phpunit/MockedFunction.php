@@ -30,7 +30,7 @@ class MockedFunction extends AbstractMocked
     public function __construct(
         TestCase $testCase,
         string $function,
-        InvocationOrder $invocationRule = null
+        ?InvocationOrder $invocationRule = null
     ) {
         $mockObject = null;
         $method     = null;

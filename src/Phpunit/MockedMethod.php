@@ -45,7 +45,7 @@ class MockedMethod extends AbstractMocked
         TestCase $testCase,
         string $class,
         string $method,
-        InvocationOrder $invocationRule = null
+        ?InvocationOrder $invocationRule = null
     ) {
         $this->mockObject = self::createEmptyMock($testCase, $method);
 
