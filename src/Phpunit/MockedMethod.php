@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace QratorLabs\Smocky\Phpunit;
 
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
+use PHPUnit\Framework\MockObject\Generator\Generator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use PHPUnit\Framework\TestCase;
@@ -14,16 +15,18 @@ use ReflectionException;
 
 use function assert;
 
-class MockedMethod
+class MockedMethod extends AbstractMocked
 {
-    /** @var InvocationMocker */
-    private $invocationMocker;
-    /** @var MockObject */
-    private $mockObject;
     /**
      * @var MockedClassMethod
      */
     private $mockedMethod;
+
+    /** @var InvocationMocker */
+    private $invocationMocker;
+
+    /** @var MockObject */
+    private $mockObject;
 
     /**
      * MockedMethod constructor.
@@ -42,17 +45,9 @@ class MockedMethod
         TestCase $testCase,
         string $class,
         string $method,
-        ?InvocationOrder $invocationRule = null
+        InvocationOrder $invocationRule = null
     ) {
-        assert($method !== '');
-        $this->mockObject = $testCase
-            ->getMockBuilder(EmptyClass::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->addMethods([$method])
-            ->getMock();
+        $this->mockObject = self::createEmptyMock($testCase, $method);
 
         if ($invocationRule === null) {
             $this->invocationMocker = $this->mockObject->method($method);

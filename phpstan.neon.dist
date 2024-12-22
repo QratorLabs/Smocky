@@ -3,8 +3,14 @@ parameters:
   paths:
     - ./src
     - ./test
+  tmpDir: ./test/caches/phpstan.cache
+  excludePaths:
+    analyseAndScan:
+      - ./test/caches/phpstan.cache
   bootstrapFiles:
     - ./test/phpstan/runkit7.stub.php
   ignoreErrors:
     - path: test/phpunit/Helpers/ClassWithMethods.php
       message: '/^Method .*\\ClassWithMethods::privateMethod\(\) is unused\.$/'
+    - path: src/Phpunit/AbstractMocked.php
+      message: '/^Class PHPUnit\\Framework\\MockObject(\\Generator)+ not found./'

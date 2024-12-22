@@ -17,8 +17,6 @@ use function get_class;
 use function set_error_handler;
 use function uniqid;
 
-use const E_WARNING;
-
 /**
  * @internal
  */
@@ -36,19 +34,15 @@ class UndefinedGlobalConstantTest extends TestCase
         };
         $cls = get_class($ex);
 
-        $prev = set_error_handler(static function (int $errno, string $errstr) use ($cls) {
+        set_error_handler(static function (int $errno, string $errstr) use ($cls) {
             throw new $cls($errstr, $errno);
-        }, E_WARNING);
-
+        });
 
         $this->expectException($cls);
         try {
             new UndefinedGlobalConstant('PHP_VERSION');
-        } catch (Throwable $ex) {
-            if ($prev) {
-                set_error_handler($prev);
-            }
-            throw $ex;
+        } finally {
+            restore_error_handler();
         }
     }
 

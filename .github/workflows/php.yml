@@ -24,4 +24,4 @@ jobs:
         run: composer run-script phpstan
 
       - name: Run phpcs
-        run: composer run-script phpstan
+        run: composer run-script phpcs
