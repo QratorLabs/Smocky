@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_subclass_of\(\) with arguments class\-string, class\-string and true will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/ClassMethod/MockedClassMethod.php
+
+		-
+			message: '#^Class PHPUnit\\Framework\\MockObject\\Generator not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Phpunit/AbstractMocked.php
+
+		-
+			message: '#^Method QratorLabs\\Smocky\\Test\\PhpUnit\\Helpers\\ClassWithMethods\:\:privateMethod\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: test/phpunit/Helpers/ClassWithMethods.php

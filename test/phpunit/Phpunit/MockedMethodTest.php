@@ -24,8 +24,10 @@ class MockedMethodTest extends TestCase
     {
         $object      = new ClassWithMethods();
         $originValue = $object->publicMethod();
+        // @phpstan-ignore-next-line - we need to check if method in it's original state
         self::assertNotNull($originValue);
         $methodMock = new MockedMethod($this, ClassWithMethods::class, 'publicMethod');
+        // @phpstan-ignore-next-line - we need to check if method in it's mocked state
         self::assertNull($object->publicMethod());
         unset($methodMock);
         self::assertSame($originValue, $object->publicMethod());
@@ -37,8 +39,10 @@ class MockedMethodTest extends TestCase
     public function testMinimalStatic(): void
     {
         $originValue = ClassWithMethods::publicStaticMethod();
+        // @phpstan-ignore-next-line - we need to check if method in it's original state
         self::assertNotNull($originValue);
         $methodMock = new MockedMethod($this, ClassWithMethods::class, 'publicStaticMethod');
+        // @phpstan-ignore-next-line - we need to check if method in it's mocked state
         self::assertNull(ClassWithMethods::publicStaticMethod());
         unset($methodMock);
         self::assertSame($originValue, ClassWithMethods::publicStaticMethod());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace QratorLabs\Smocky\Test\PhpUnit\Constant;
 
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\UndefinedClassConstant;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants;
@@ -27,9 +28,18 @@ class UndefinedClassConstantTest extends TestCase
     /**
      * @return Generator<string, array{string, string}>
      */
-    public function dataCoreConstants(): Generator
+    public static function dataCoreConstants(): Generator
     {
         yield 'ReflectionClass::IS_FINAL' => [ReflectionClass::class, 'IS_FINAL'];
+    }
+
+    /**
+     * @return Generator
+     * @phpstan-return Generator<string, array{class-string, string}>
+     */
+    public static function getDataForTests(): Generator
+    {
+        return ClassWithConstants::getDataForTests();
     }
 
     /**
@@ -39,13 +49,11 @@ class UndefinedClassConstantTest extends TestCase
      * @throws ReflectionException
      * @throws Throwable
      *
-     * @dataProvider dataCoreConstants
-     *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      *
      * This test ensures that php core constants couldn't be mocked
      */
+    #[DataProvider("dataCoreConstants")]
     public function testCoreConstants(string $class, string $constantName): void
     {
         $ex  = new class extends RuntimeException {
@@ -77,11 +85,9 @@ class UndefinedClassConstantTest extends TestCase
      *
      * @throws ReflectionException
      *
-     * @dataProvider \QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants::getDataForTests()
-     *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      */
+    #[DataProvider("getDataForTests")]
     public function testRemoveCheckWithReflection(string $class, string $constantName): void
     {
         // check #1: reflection is working
@@ -108,11 +114,10 @@ class UndefinedClassConstantTest extends TestCase
      *
      * @throws ReflectionException
      *
-     * @dataProvider \QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants::getDataForTests()
-     *
      * @phpstan-param class-string $class
      * @noinspection PhpUndefinedClassInspection
      */
+    #[DataProvider("getDataForTests")]
     public function testRemoveComplex(string $class, string $constantName): void
     {
         $classReflection    = new ReflectionClass($class);

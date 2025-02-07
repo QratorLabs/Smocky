@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace QratorLabs\Smocky\Phpunit;
 
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
+use PHPUnit\Framework\MockObject\Builder\InvocationStubber;
 use PHPUnit\Framework\MockObject\Generator\Generator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
@@ -22,7 +23,7 @@ class MockedMethod extends AbstractMocked
      */
     private $mockedMethod;
 
-    /** @var InvocationMocker */
+    /** @var InvocationStubber */
     private $invocationMocker;
 
     /** @var MockObject */
@@ -93,7 +94,7 @@ class MockedMethod extends AbstractMocked
         return $this->mockedMethod->callOriginalStatic(...$args);
     }
 
-    public function getMocker(): InvocationMocker
+    public function getMocker(): InvocationStubber
     {
         return $this->invocationMocker;
     }

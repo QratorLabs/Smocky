@@ -17,7 +17,6 @@ class ClassWithConstants
     private const   CONST_PRIVATE   = 'CONST_PRIVATE';
 
     /**
-     * @static
      * @return Generator
      * @phpstan-return Generator<string, array{class-string, string}>
      */

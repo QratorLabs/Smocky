@@ -6,6 +6,7 @@ namespace QratorLabs\Smocky\Constant;
 
 use ReflectionException;
 
+use function assert;
 use function runkit7_constant_add;
 use function runkit7_constant_remove;
 
@@ -24,7 +25,7 @@ class UndefinedGlobalConstant extends MockedGlobalConstant
     public function __construct(string $constantName)
     {
         parent::__construct($constantName, null);
-        runkit7_constant_remove($constantName);
+        assert(runkit7_constant_remove($constantName));
     }
 
     /**
@@ -32,6 +33,6 @@ class UndefinedGlobalConstant extends MockedGlobalConstant
      */
     public function __destruct()
     {
-        runkit7_constant_add($this->name, $this->value, RUNKIT7_ACC_PUBLIC);
+        assert(runkit7_constant_add($this->name, $this->value, RUNKIT7_ACC_PUBLIC));
     }
 }

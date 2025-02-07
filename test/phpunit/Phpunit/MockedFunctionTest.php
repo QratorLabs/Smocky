@@ -19,9 +19,11 @@ class MockedFunctionTest extends TestCase
         $function    = '\QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction';
         $originValue = $function();
 
+        // @phpstan-ignore-next-line - we need to check if function in it's original state
         self::assertNotNull($originValue);
         $functionMock = new MockedFunction($this, $function);
 
+        // @phpstan-ignore-next-line - we need to check if function in it's mocked state
         self::assertNull($function());
         unset($functionMock);
         self::assertSame($originValue, $function());

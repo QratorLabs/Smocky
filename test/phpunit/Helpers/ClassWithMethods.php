@@ -19,7 +19,6 @@ class ClassWithMethods
     }
 
     /**
-     * @static
      * @return Generator
      * @phpstan-return Generator<string, array{class-string, string}>
      * @throws ReflectionException

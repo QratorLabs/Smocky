@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace QratorLabs\Smocky\Constant;
 
-use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;
 use Throwable;
 
+use function assert;
 use function runkit7_constant_add;
 use function runkit7_constant_remove;
 
@@ -26,7 +26,6 @@ class UndefinedClassConstant extends UndefinedGlobalConstant
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      * @noinspection PhpMissingParentConstructorInspection
      * @noinspection PhpExpressionResultUnusedInspection
      */
@@ -52,6 +51,6 @@ class UndefinedClassConstant extends UndefinedGlobalConstant
      */
     public function __destruct()
     {
-        runkit7_constant_add($this->name, $this->value, $this->visibility);
+        assert(runkit7_constant_add($this->name, $this->value, $this->visibility));
     }
 }
