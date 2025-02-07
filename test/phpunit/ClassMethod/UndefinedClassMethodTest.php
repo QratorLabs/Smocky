@@ -22,7 +22,7 @@ class UndefinedClassMethodTest extends TestCase
      * @phpstan-return Generator<string, array{class-string, string}>
      * @throws ReflectionException
      */
-    public static function getDataForTests()
+    public static function getDataForTests(): Generator
     {
         return ClassWithMethods::getDataForTests();
     }
@@ -57,7 +57,7 @@ class UndefinedClassMethodTest extends TestCase
      *
      * @phpstan-param class-string<ClassWithMethods> $class
      */
-    #[DataProvider("getDataForTests")]
+    #[DataProvider('getDataForTests')]
     public function testRemoveMethod(string $class, string $method): void
     {
         $classReflection = new ReflectionClass($class);

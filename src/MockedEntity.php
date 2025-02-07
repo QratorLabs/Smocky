@@ -7,7 +7,7 @@ namespace QratorLabs\Smocky;
 use ReflectionClassConstant;
 use ReflectionMethod;
 
-use function strtr;
+use function str_replace;
 use function uniqid;
 
 use const RUNKIT7_ACC_PRIVATE;
@@ -33,7 +33,7 @@ abstract class MockedEntity
      */
     protected function getStashedName(string $basename, string $prefix = ''): string
     {
-        return '__smocky_stashed_' . $prefix . '__' . strtr(uniqid('', true), '.', '_') . '__' . $basename;
+        return '__smocky_stashed_' . $prefix . '__' . str_replace('.', '_', uniqid('', true)) . '__' . $basename;
     }
 
     /**

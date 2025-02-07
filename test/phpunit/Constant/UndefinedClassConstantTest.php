@@ -53,7 +53,7 @@ class UndefinedClassConstantTest extends TestCase
      *
      * This test ensures that php core constants couldn't be mocked
      */
-    #[DataProvider("dataCoreConstants")]
+    #[DataProvider('dataCoreConstants')]
     public function testCoreConstants(string $class, string $constantName): void
     {
         $ex  = new class extends RuntimeException {
@@ -87,7 +87,7 @@ class UndefinedClassConstantTest extends TestCase
      *
      * @phpstan-param class-string $class
      */
-    #[DataProvider("getDataForTests")]
+    #[DataProvider('getDataForTests')]
     public function testRemoveCheckWithReflection(string $class, string $constantName): void
     {
         // check #1: reflection is working
@@ -117,7 +117,7 @@ class UndefinedClassConstantTest extends TestCase
      * @phpstan-param class-string $class
      * @noinspection PhpUndefinedClassInspection
      */
-    #[DataProvider("getDataForTests")]
+    #[DataProvider('getDataForTests')]
     public function testRemoveComplex(string $class, string $constantName): void
     {
         $classReflection    = new ReflectionClass($class);

@@ -9,6 +9,7 @@ use ReflectionException;
 use ReflectionMethod;
 use RuntimeException;
 
+use function assert;
 use function get_declared_classes;
 use function get_parent_class;
 use function is_subclass_of;
@@ -34,7 +35,6 @@ class MockedClassMethod extends UndefinedClassMethod
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      * @noinspection PhpExpressionResultUnusedInspection
      */
     public function __construct(string $class, string $method, ?Closure $closure = null)
@@ -55,7 +55,7 @@ class MockedClassMethod extends UndefinedClassMethod
             $this->class,
             $this->method,
             /**
-             * @param array<mixed> $args
+             * @param array<> $args
              *
              * @return mixed
              */
@@ -116,8 +116,8 @@ class MockedClassMethod extends UndefinedClassMethod
 
     public function __destruct()
     {
-        runkit7_method_remove($this->class, $this->method);
-        runkit7_method_rename($this->class, $this->stashedName, $this->method);
+        assert(runkit7_method_remove($this->class, $this->method));
+        assert(runkit7_method_rename($this->class, $this->stashedName, $this->method));
     }
 
     /**
@@ -131,7 +131,7 @@ class MockedClassMethod extends UndefinedClassMethod
             if (
                 $parentClass === false ||
                 $className === $this->class ||
-                !is_subclass_of($className, $this->class, true)
+                !is_subclass_of($className, $this->class)
             ) {
                 continue;
             }
@@ -147,6 +147,7 @@ class MockedClassMethod extends UndefinedClassMethod
                  * @param array<mixed> $args
                  *
                  * @return mixed
+                 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
                  */
                 static function (...$args) use ($parentClass, $methodName) {
                     return $parentClass::$methodName(...$args);

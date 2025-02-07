@@ -7,6 +7,7 @@ namespace QratorLabs\Smocky\ClassMethod;
 use ReflectionException;
 use ReflectionMethod;
 
+use function assert;
 use function runkit7_method_rename;
 
 class UndefinedClassMethod extends BaseClassMethod
@@ -37,11 +38,11 @@ class UndefinedClassMethod extends BaseClassMethod
         $this->method = $method;
 
         $this->stashedName = $this->getStashedName($this->method);
-        runkit7_method_rename($this->class, $this->method, $this->stashedName);
+        assert(runkit7_method_rename($this->class, $this->method, $this->stashedName));
     }
 
     public function __destruct()
     {
-        runkit7_method_rename($this->class, $this->stashedName, $this->method);
+        assert(runkit7_method_rename($this->class, $this->stashedName, $this->method));
     }
 }

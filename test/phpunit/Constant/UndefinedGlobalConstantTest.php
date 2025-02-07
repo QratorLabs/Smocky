@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\UndefinedGlobalConstant;
 use ReflectionException;
 use RuntimeException;
-use Throwable;
 
 use function constant;
 use function define;
@@ -51,6 +50,7 @@ class UndefinedGlobalConstantTest extends TestCase
      */
     public function testUndefinedComplex(): void
     {
+        /** @noinspection PhpRedundantOptionalArgumentInspection */
         $constantName = uniqid('CONST_', false);
         define($constantName, uniqid('VALUE_', true));
 

@@ -90,6 +90,9 @@ class MockedClassMethodTest extends TestCase
         $method->callOriginal($object);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testCallOriginalStaticNotStatic(): void
     {
         $method = new MockedClassMethod(ClassWithMethods::class, 'publicMethod');
@@ -160,6 +163,9 @@ class MockedClassMethodTest extends TestCase
         new MockedClassMethod(ClassWithMethods::class, 'NOT_EXISTING_METHOD');
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testMockRuntime(): void
     {
         $object        = new ClassWithMethods();

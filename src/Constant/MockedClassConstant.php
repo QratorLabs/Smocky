@@ -8,6 +8,7 @@ use ReflectionClassConstant;
 use ReflectionException;
 use Throwable;
 
+use function assert;
 use function runkit7_constant_redefine;
 
 use const RUNKIT7_ACC_PUBLIC;
@@ -27,7 +28,6 @@ class MockedClassConstant extends MockedGlobalConstant
      * @phpstan-param class-string $class
      * @noinspection PhpUndefinedClassInspection
      * @noinspection PhpMissingParentConstructorInspection
-     * @noinspection PhpExpressionResultUnusedInspection
      */
     public function __construct(string $class, string $constant, $newValue)
     {
@@ -45,14 +45,11 @@ class MockedClassConstant extends MockedGlobalConstant
         $this->name  = $class . '::' . $constant;
         $this->value = $reflection->getValue();
 
-        runkit7_constant_redefine($this->name, $newValue, $this->visibility);
+        assert(runkit7_constant_redefine($this->name, $newValue, $this->visibility));
     }
 
-    /**
-     * @noinspection PhpExpressionResultUnusedInspection
-     */
     public function __destruct()
     {
-        runkit7_constant_redefine($this->name, $this->value, $this->visibility);
+        assert(runkit7_constant_redefine($this->name, $this->value, $this->visibility));
     }
 }

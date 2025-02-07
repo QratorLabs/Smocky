@@ -44,7 +44,7 @@ class MockedClassConstantTest extends TestCase
      * @phpstan-param class-string $class
      * @noinspection PhpUndefinedClassInspection
      */
-    #[DataProvider("getDataForTests")]
+    #[DataProvider('getDataForTests')]
     public function testUsageComplex(string $class, string $constantName): void
     {
         $classReflection    = new ReflectionClass($class);

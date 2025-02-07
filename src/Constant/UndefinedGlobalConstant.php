@@ -10,8 +10,6 @@ use function assert;
 use function runkit7_constant_add;
 use function runkit7_constant_remove;
 
-use const RUNKIT7_ACC_PUBLIC;
-
 class UndefinedGlobalConstant extends MockedGlobalConstant
 {
     /**
@@ -20,7 +18,6 @@ class UndefinedGlobalConstant extends MockedGlobalConstant
      * @param string $constantName
      *
      * @throws ReflectionException
-     * @noinspection PhpExpressionResultUnusedInspection
      */
     public function __construct(string $constantName)
     {
@@ -28,11 +25,8 @@ class UndefinedGlobalConstant extends MockedGlobalConstant
         assert(runkit7_constant_remove($constantName));
     }
 
-    /**
-     * @noinspection PhpExpressionResultUnusedInspection
-     */
     public function __destruct()
     {
-        assert(runkit7_constant_add($this->name, $this->value, RUNKIT7_ACC_PUBLIC));
+        assert(runkit7_constant_add($this->name, $this->value));
     }
 }

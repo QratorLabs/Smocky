@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to function is_subclass_of\(\) with arguments class\-string, class\-string and true will always evaluate to true\.$#'
+			message: '#^Call to function is_subclass_of\(\) with class\-string and class\-string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/ClassMethod/MockedClassMethod.php

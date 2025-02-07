@@ -35,7 +35,7 @@ class MockedFunctionTest extends TestCase
     public function testExpectNever(): void
     {
         $function = '\QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction';
-        new MockedFunction($this, $function, self::never());
+        new MockedFunction($this, $function, $this->never());
     }
 
     /**
@@ -45,7 +45,7 @@ class MockedFunctionTest extends TestCase
     {
         $function     = '\QratorLabs\Smocky\Test\PhpUnit\Helpers\someFunction';
         $expected     = uniqid('', true);
-        $functionMock = new MockedFunction($this, $function, self::once());
+        $functionMock = new MockedFunction($this, $function, $this->once());
         $functionMock->getMocker()->willReturn($expected);
         self::assertSame($expected, $function());
     }
@@ -61,7 +61,7 @@ class MockedFunctionTest extends TestCase
         $originalValue = $function();
         $extValue      = null;
 
-        $mock = new MockedFunction($this, $function, self::once());
+        $mock = new MockedFunction($this, $function, $this->once());
         // This was a bit tricky: we have to use `&$mock` to maintain variable-ref but not just object-ref
         // to do proper object destruction
         $mock->getMocker()->willReturnCallback(

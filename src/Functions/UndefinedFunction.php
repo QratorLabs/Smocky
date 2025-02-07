@@ -7,6 +7,7 @@ namespace QratorLabs\Smocky\Functions;
 use ReflectionException;
 use ReflectionFunction;
 
+use function assert;
 use function runkit7_function_rename;
 
 class UndefinedFunction extends BaseFunction
@@ -32,11 +33,11 @@ class UndefinedFunction extends BaseFunction
         $this->function  = $reflection->getShortName();
 
         $this->stashedName = $this->getStashedName($this->function);
-        runkit7_function_rename($this->getFullName(), $this->stashedName);
+        assert(runkit7_function_rename($this->getFullName(), $this->stashedName));
     }
 
     public function __destruct()
     {
-        runkit7_function_rename($this->stashedName, $this->getFullName());
+        assert(runkit7_function_rename($this->stashedName, $this->getFullName()));
     }
 }

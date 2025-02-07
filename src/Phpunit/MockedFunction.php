@@ -41,6 +41,7 @@ class MockedFunction extends AbstractMocked
              * @param array<mixed> $args
              *
              * @return mixed
+             * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
              */
             static function (...$args) use (&$mockObject, &$method) {
                 return $mockObject->{$method}(...$args);

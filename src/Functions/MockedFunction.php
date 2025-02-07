@@ -7,6 +7,7 @@ namespace QratorLabs\Smocky\Functions;
 use Closure;
 use ReflectionException;
 
+use function assert;
 use function runkit7_function_add;
 use function runkit7_function_remove;
 use function runkit7_function_rename;
@@ -32,18 +33,27 @@ class MockedFunction extends UndefinedFunction
         parent::__construct($function);
         $closure = $this->closure;
         $tmpName = $this->getStashedName($this->function);
-        runkit7_function_add(
-            $tmpName,
-            /**
-             * @param array<mixed> $args
-             *
-             * @return mixed
-             */
-            static function (...$args) use ($closure) {
-                return $closure(...$args);
-            }
+        assert(
+            runkit7_function_add(
+                $tmpName,
+                /**
+                 * @param array<mixed> $args
+                 *
+                 * @return mixed
+                 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
+                 */
+                static function (...$args) use ($closure) {
+                    return $closure(...$args);
+                }
+            )
         );
-        runkit7_function_rename($tmpName, $this->getFullName());
+        assert(runkit7_function_rename($tmpName, $this->getFullName()));
+    }
+
+    public function __destruct()
+    {
+        assert(runkit7_function_remove($this->getFullName()));
+        parent::__destruct();
     }
 
     /**
@@ -55,11 +65,5 @@ class MockedFunction extends UndefinedFunction
     {
         /** @phpstan-ignore-next-line */
         return ($this->stashedName)(...$args);
-    }
-
-    public function __destruct()
-    {
-        runkit7_function_remove($this->getFullName());
-        parent::__destruct();
     }
 }

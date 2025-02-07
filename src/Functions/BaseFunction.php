@@ -11,7 +11,7 @@ abstract class BaseFunction extends MockedEntity
     /**
      * @var ?string
      */
-    protected $namespace = null;
+    protected $namespace;
 
     /** @var string */
     protected $function;

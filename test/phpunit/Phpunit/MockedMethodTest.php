@@ -57,7 +57,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicStaticMethod',
-            self::never()
+            $this->never()
         );
     }
 
@@ -71,7 +71,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicStaticMethod',
-            self::once()
+            $this->once()
         );
         $methodMock->getMocker()->willReturn($expected);
         self::assertSame($expected, ClassWithMethods::publicStaticMethod());
@@ -86,7 +86,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicStaticMethod',
-            self::never()
+            $this->never()
         );
         $methodMock->callOriginalStatic();
     }
@@ -101,7 +101,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicMethod',
-            self::never()
+            $this->never()
         );
         $methodMock->callOriginal($object);
     }
@@ -117,7 +117,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicMethod',
-            self::exactly(2)
+            $this->exactly(2)
         );
         $methodMock->getMocker()->willReturnCallback(static function () use ($object, $methodMock) {
             static $firstTime = true;
@@ -143,7 +143,7 @@ class MockedMethodTest extends TestCase
             $this,
             ClassWithMethods::class,
             'publicStaticMethod',
-            self::exactly(2)
+            $this->exactly(2)
         );
         $methodMock->getMocker()->willReturnCallback(static function () use (&$methodMock) {
             static $firstTime = true;
@@ -177,7 +177,7 @@ class MockedMethodTest extends TestCase
         };
 
         self::assertSame('initial', $object->getValue());
-        $mock = new MockedMethod($this, get_class($object), 'getValue', self::once());
+        $mock = new MockedMethod($this, get_class($object), 'getValue', $this->once());
         $mock->getMocker()->willReturnCallback(static function () use ($object) {
             $object->value = 'changed';
 

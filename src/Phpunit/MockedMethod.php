@@ -9,16 +9,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\ClassMethod\MockedClassMethod;
-use QratorLabs\Smocky\EmptyClass;
 use ReflectionException;
-
-use function assert;
 
 class MockedMethod extends AbstractMocked
 {
-    /**
-     * @var MockedClassMethod
-     */
+    /** @var MockedClassMethod */
     private $mockedMethod;
     /** @var InvocationMocker */
     private $invocationMocker;
@@ -37,7 +32,6 @@ class MockedMethod extends AbstractMocked
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      */
     public function __construct(
         TestCase $testCase,
@@ -63,6 +57,7 @@ class MockedMethod extends AbstractMocked
              * @param array<mixed> $args
              *
              * @return mixed
+             * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
              */
             static function (...$args) use ($mockObject, $method) {
                 return $mockObject->{$method}(...$args);

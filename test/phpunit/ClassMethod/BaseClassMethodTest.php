@@ -7,8 +7,8 @@ namespace QratorLabs\Smocky\Test\PhpUnit\ClassMethod;
 use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\ClassMethod\BaseClassMethod;
 
-use function PHPUnit\Framework\assertSame;
 use function uniqid;
+use function str_replace;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ class BaseClassMethodTest extends TestCase
     public function testClassMethodGetters(): void
     {
         $class  = self::class;
-        $method = strtr(uniqid('', true), '.', '_');
+        $method = str_replace('.', '_', uniqid('', true));
 
         $dummy = new class ($class, $method) extends BaseClassMethod {
             public function __construct(string $class, string $method)
@@ -33,7 +33,7 @@ class BaseClassMethodTest extends TestCase
             }
         };
 
-        assertSame($class, $dummy->getClass());
-        assertSame($method, $dummy->getMethod());
+        self::assertSame($class, $dummy->getClass());
+        self::assertSame($method, $dummy->getMethod());
     }
 }

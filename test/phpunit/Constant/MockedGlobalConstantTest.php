@@ -10,6 +10,7 @@ use ReflectionException;
 
 use function constant;
 use function define;
+use function defined;
 use function uniqid;
 
 /**
@@ -22,6 +23,7 @@ class MockedGlobalConstantTest extends TestCase
      */
     public function testMinimal(): void
     {
+        /** @noinspection PhpRedundantOptionalArgumentInspection */
         $constantName  = uniqid('CONST_', false);
         $originalValue = uniqid('VALUE_', true);
         self::assertFalse(defined($constantName));
