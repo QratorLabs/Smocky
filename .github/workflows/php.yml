@@ -25,3 +25,6 @@ jobs:
 
       - name: Run phpcs
         run: composer run-script phpcs
+
+      - name: Run phpunit
+        run: composer run-script phpcs
