@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace QratorLabs\Smocky\Phpunit;
 
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
-use PHPUnit\Framework\MockObject\Builder\InvocationStubber;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Functions\MockedFunction as GenericMockedFunction;
@@ -16,7 +15,7 @@ class MockedFunction extends AbstractMocked
     /** @var GenericMockedFunction */
     private $mockedFunction;
 
-    /** @var InvocationStubber */
+    /** @var InvocationMocker */
     private $invocationMocker;
 
     /**
@@ -48,14 +47,16 @@ class MockedFunction extends AbstractMocked
             }
         );
 
-        $method = $this->mockedFunction->getShortName();
+        $method     = $this->mockedFunction->getShortName();
         $mockObject = self::createEmptyMock($testCase, $method);
 
         if ($invocationRule === null) {
-            $this->invocationMocker = $mockObject->method($method);
+            /** @var InvocationMocker $mocker */
+            $mocker = $mockObject->method($method);
         } else {
-            $this->invocationMocker = $mockObject->expects($invocationRule)->method($method);
+            $mocker = $mockObject->expects($invocationRule)->method($method);
         }
+        $this->invocationMocker = $mocker;
     }
 
     /**
@@ -68,7 +69,7 @@ class MockedFunction extends AbstractMocked
         return $this->mockedFunction->callOriginal(...$args);
     }
 
-    public function getMocker(): InvocationStubber
+    public function getMocker(): InvocationMocker
     {
         return $this->invocationMocker;
     }

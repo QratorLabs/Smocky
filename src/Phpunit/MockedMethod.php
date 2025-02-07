@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace QratorLabs\Smocky\Phpunit;
 
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
-use PHPUnit\Framework\MockObject\Builder\InvocationStubber;
-use PHPUnit\Framework\MockObject\Generator\Generator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use PHPUnit\Framework\TestCase;
@@ -22,8 +20,7 @@ class MockedMethod extends AbstractMocked
      * @var MockedClassMethod
      */
     private $mockedMethod;
-
-    /** @var InvocationStubber */
+    /** @var InvocationMocker */
     private $invocationMocker;
 
     /** @var MockObject */
@@ -51,10 +48,12 @@ class MockedMethod extends AbstractMocked
         $this->mockObject = self::createEmptyMock($testCase, $method);
 
         if ($invocationRule === null) {
-            $this->invocationMocker = $this->mockObject->method($method);
+            /** @var InvocationMocker $mocker */
+            $mocker = $this->mockObject->method($method);
         } else {
-            $this->invocationMocker = $this->mockObject->expects($invocationRule)->method($method);
+            $mocker = $this->mockObject->expects($invocationRule)->method($method);
         }
+        $this->invocationMocker = $mocker;
 
         $mockObject         = $this->mockObject;
         $this->mockedMethod = new MockedClassMethod(
@@ -94,7 +93,7 @@ class MockedMethod extends AbstractMocked
         return $this->mockedMethod->callOriginalStatic(...$args);
     }
 
-    public function getMocker(): InvocationStubber
+    public function getMocker(): InvocationMocker
     {
         return $this->invocationMocker;
     }
