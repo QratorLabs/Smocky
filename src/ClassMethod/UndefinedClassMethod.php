@@ -6,9 +6,10 @@ namespace QratorLabs\Smocky\ClassMethod;
 
 use ReflectionException;
 use ReflectionMethod;
+use RuntimeException;
 
-use function assert;
 use function runkit7_method_rename;
+use function sprintf;
 
 class UndefinedClassMethod extends BaseClassMethod
 {
@@ -19,8 +20,6 @@ class UndefinedClassMethod extends BaseClassMethod
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
-     * @noinspection PhpExpressionResultUnusedInspection
      */
     public function __construct(string $class, string $method)
     {
@@ -38,11 +37,22 @@ class UndefinedClassMethod extends BaseClassMethod
         $this->method = $method;
 
         $this->stashedName = $this->getStashedName($this->method);
-        assert(runkit7_method_rename($this->class, $this->method, $this->stashedName));
+        if (!runkit7_method_rename($this->class, $this->method, $this->stashedName)) {
+            throw new ReflectionException(
+                sprintf('Failed to move method "%s::%s" to %s', $this->class, $this->method, $this->stashedName)
+            );
+        }
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function __destruct()
     {
-        assert(runkit7_method_rename($this->class, $this->stashedName, $this->method));
+        if (!runkit7_method_rename($this->class, $this->stashedName, $this->method)) {
+            throw new RuntimeException(
+                sprintf('Failed to restore method "%s::%s"', $this->class, $this->method)
+            );
+        }
     }
 }

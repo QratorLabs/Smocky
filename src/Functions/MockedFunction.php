@@ -6,11 +6,12 @@ namespace QratorLabs\Smocky\Functions;
 
 use Closure;
 use ReflectionException;
+use RuntimeException;
 
-use function assert;
 use function runkit7_function_add;
 use function runkit7_function_remove;
 use function runkit7_function_rename;
+use function sprintf;
 
 class MockedFunction extends UndefinedFunction
 {
@@ -18,7 +19,7 @@ class MockedFunction extends UndefinedFunction
     protected $closure;
 
     /**
-     * @param string $function
+     * @param string       $function
      * @param Closure|null $closure
      *
      * @throws ReflectionException
@@ -33,26 +34,28 @@ class MockedFunction extends UndefinedFunction
         parent::__construct($function);
         $closure = $this->closure;
         $tmpName = $this->getStashedName($this->function);
-        assert(
-            runkit7_function_add(
-                $tmpName,
-                /**
-                 * @param array<mixed> $args
-                 *
-                 * @return mixed
-                 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
-                 */
-                static function (...$args) use ($closure) {
-                    return $closure(...$args);
-                }
-            )
-        );
-        assert(runkit7_function_rename($tmpName, $this->getFullName()));
+        /**
+         * @param array<mixed> $args
+         *
+         * @return mixed
+         * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
+         */
+        $closureWrapper = static function (...$args) use ($closure) {
+            return $closure(...$args);
+        };
+        if (
+            !runkit7_function_add($tmpName, $closureWrapper)
+            || !runkit7_function_rename($tmpName, $this->getFullName())
+        ) {
+            throw new RuntimeException(sprintf('Failed to replace function "%s"', $this->getFullName()));
+        }
     }
 
     public function __destruct()
     {
-        assert(runkit7_function_remove($this->getFullName()));
+        if (!runkit7_function_remove($this->getFullName())) {
+            throw new RuntimeException(sprintf('Failed to restore function "%s"', $this->getFullName()));
+        }
         parent::__destruct();
     }
 

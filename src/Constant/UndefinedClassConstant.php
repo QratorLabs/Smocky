@@ -6,11 +6,12 @@ namespace QratorLabs\Smocky\Constant;
 
 use ReflectionClassConstant;
 use ReflectionException;
+use RuntimeException;
 use Throwable;
 
-use function assert;
 use function runkit7_constant_add;
 use function runkit7_constant_remove;
+use function sprintf;
 
 class UndefinedClassConstant extends UndefinedGlobalConstant
 {
@@ -23,11 +24,11 @@ class UndefinedClassConstant extends UndefinedGlobalConstant
      * @param string               $class
      * @param string               $constantName
      *
+     * @throws RuntimeException
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
      * @noinspection PhpMissingParentConstructorInspection
-     * @noinspection PhpExpressionResultUnusedInspection
      */
     public function __construct(string $class, string $constantName)
     {
@@ -43,14 +44,18 @@ class UndefinedClassConstant extends UndefinedGlobalConstant
         $this->name       = $class . '::' . $constantName;
         $this->value      = $reflection->getValue();
         $this->visibility = $this->getVisibility($reflection);
-        runkit7_constant_remove($this->name);
+        if (!runkit7_constant_remove($this->name)) {
+            throw new RuntimeException(sprintf('Failed to remove constant "%s"', $this->name));
+        }
     }
 
     /**
-     * @noinspection PhpExpressionResultUnusedInspection
+     * @throws RuntimeException
      */
     public function __destruct()
     {
-        assert(runkit7_constant_add($this->name, $this->value, $this->visibility));
+        if (!runkit7_constant_add($this->name, $this->value, $this->visibility)) {
+            throw new RuntimeException(sprintf('Failed to restore constant "%s"', $this->name));
+        }
     }
 }

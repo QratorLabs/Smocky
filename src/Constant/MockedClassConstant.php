@@ -6,10 +6,11 @@ namespace QratorLabs\Smocky\Constant;
 
 use ReflectionClassConstant;
 use ReflectionException;
+use RuntimeException;
 use Throwable;
 
-use function assert;
 use function runkit7_constant_redefine;
+use function sprintf;
 
 use const RUNKIT7_ACC_PUBLIC;
 
@@ -19,14 +20,12 @@ class MockedClassConstant extends MockedGlobalConstant
     private $visibility = RUNKIT7_ACC_PUBLIC;
 
     /**
-     * @param string               $class
-     * @param string               $constant
      * @param mixed                $newValue
      *
+     * @throws RuntimeException
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct(string $class, string $constant, $newValue)
@@ -35,7 +34,7 @@ class MockedClassConstant extends MockedGlobalConstant
             $reflection = new ReflectionClassConstant($class, $constant);
         } catch (Throwable $exception) {
             throw new ReflectionException(
-                'Failed to create reflection: ' . $exception->getMessage(),
+                sprintf('Failed to create reflection: %s', $exception->getMessage()),
                 $exception->getCode(),
                 $exception
             );
@@ -45,11 +44,15 @@ class MockedClassConstant extends MockedGlobalConstant
         $this->name  = $class . '::' . $constant;
         $this->value = $reflection->getValue();
 
-        assert(runkit7_constant_redefine($this->name, $newValue, $this->visibility));
+        if (!runkit7_constant_redefine($this->name, $newValue, $this->visibility)) {
+            throw new RuntimeException(sprintf('Failed to redefine constant "%s"', $this->name));
+        }
     }
 
     public function __destruct()
     {
-        assert(runkit7_constant_redefine($this->name, $this->value, $this->visibility));
+        if (!runkit7_constant_redefine($this->name, $this->value, $this->visibility)) {
+            throw new RuntimeException(sprintf('Failed to restore constant "%s"', $this->name));
+        }
     }
 }

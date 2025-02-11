@@ -27,7 +27,6 @@ abstract class BaseClassMethod extends MockedEntity
      * @param string               $method
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      */
     abstract public function __construct(string $class, string $method);
 

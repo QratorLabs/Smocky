@@ -12,7 +12,6 @@ use QratorLabs\Smocky\EmptyClass;
 use ReflectionException;
 use ReflectionMethod;
 
-use function assert;
 use function class_exists;
 
 abstract class AbstractMocked
@@ -23,7 +22,7 @@ abstract class AbstractMocked
      */
     protected static function createEmptyMock(TestCase $testCase, string $method): MockObject
     {
-        $generatorClass  = class_exists(Generator_PHPUnit1x::class)
+        $generatorClass = class_exists(Generator_PHPUnit1x::class)
             ? Generator_PHPUnit1x::class
             : Generator_PHPUnit9::class;
 
@@ -75,8 +74,10 @@ abstract class AbstractMocked
 
         // @phpstan-ignore-next-line
         $mockObject = (new $generatorClass())->$generatorMethod(...$args);
-        assert($mockObject instanceof EmptyClass);
-        assert($mockObject instanceof MockObject);
+        if (!$mockObject instanceof MockObject || !$mockObject instanceof EmptyClass) {
+            throw new ReflectionException('Failed to create a mock object');
+        }
+
         $testCase->registerMockObject($mockObject);
 
         return $mockObject;

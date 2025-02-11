@@ -9,13 +9,13 @@ use ReflectionException;
 use ReflectionMethod;
 use RuntimeException;
 
-use function assert;
 use function get_declared_classes;
 use function get_parent_class;
 use function is_subclass_of;
 use function runkit7_method_add;
 use function runkit7_method_remove;
 use function runkit7_method_rename;
+use function sprintf;
 
 use const RUNKIT7_ACC_STATIC;
 
@@ -35,7 +35,6 @@ class MockedClassMethod extends UndefinedClassMethod
      * @throws ReflectionException
      *
      * @phpstan-param class-string $class
-     * @noinspection PhpExpressionResultUnusedInspection
      */
     public function __construct(string $class, string $method, ?Closure $closure = null)
     {
@@ -51,21 +50,29 @@ class MockedClassMethod extends UndefinedClassMethod
             static function (): void {
             };
 
-        runkit7_method_add(
-            $this->class,
-            $this->method,
-            /**
-             * @param array<> $args
-             *
-             * @return mixed
-             */
-            static function (...$args) use ($closureUse) {
-                return $closureUse(...$args);
-            },
-            $flags
-        );
+        /**
+         * @param array<mixed> $args
+         *
+         * @return mixed
+         */
+        $closureWrapper = static function (...$args) use ($closureUse) {
+            return $closureUse(...$args);
+        };
+        if (!runkit7_method_add($this->class, $this->method, $closureWrapper, $flags)) {
+            throw new RuntimeException(sprintf('Failed to mock method "%s::%s".', $this->class, $this->method));
+        }
 
         $this->stubChildrenMethods();
+    }
+
+    public function __destruct()
+    {
+        if (
+            !runkit7_method_remove($this->class, $this->method)
+            || !runkit7_method_rename($this->class, $this->stashedName, $this->method)
+        ) {
+            throw new RuntimeException(sprintf('Failed to restore method "%s::%s".', $this->class, $this->method));
+        }
     }
 
     /**
@@ -74,16 +81,17 @@ class MockedClassMethod extends UndefinedClassMethod
      *
      * @return mixed
      * @throws ReflectionException
+     * @throws RuntimeException
      */
     public function callOriginal($object, ...$args)
     {
         if (!($object instanceof $this->class)) {
-            throw new RuntimeException('Object of "' . $this->class . '" expected.');
+            throw new RuntimeException(sprintf('Object of "%s" expected.', $this->class));
         }
         $ref = (new ReflectionMethod($this->class, $this->stashedName));
         if ($ref->isStatic()) {
             throw new RuntimeException(
-                'Method "' . $this->class . '::' . $this->method . '" is static and cannot be called dynamically.'
+                sprintf('Method "%s::%s" is static and cannot be called dynamically.', $this->class, $this->method)
             );
         }
         if (!$ref->isPublic()) {
@@ -104,7 +112,7 @@ class MockedClassMethod extends UndefinedClassMethod
         $ref = (new ReflectionMethod($this->class, $this->stashedName));
         if (!$ref->isStatic()) {
             throw new RuntimeException(
-                'Method "' . $this->class . '::' . $this->method . '" is dynamic and cannot be called statically.'
+                sprintf('Method "%s::%s" is dynamic and cannot be called statically.', $this->class, $this->method)
             );
         }
         if (!$ref->isPublic()) {
@@ -112,12 +120,6 @@ class MockedClassMethod extends UndefinedClassMethod
         }
 
         return $ref->invoke(null, ...$args);
-    }
-
-    public function __destruct()
-    {
-        assert(runkit7_method_remove($this->class, $this->method));
-        assert(runkit7_method_rename($this->class, $this->stashedName, $this->method));
     }
 
     /**
