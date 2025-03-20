@@ -36,7 +36,8 @@
     ]
   },
   "suggest": {
-    "ext-runkit7": "^3.0"
+    "ext-runkit7": "^3.0",
+    "qratorlabs/smocky-phpunit": "*"
   },
   "scripts": {
     "phpstan": "phpstan analyse",
