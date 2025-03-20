@@ -5,3 +5,9 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/ClassMethod/MockedClassMethod.php
+
+		-
+			message: '#^Method QratorLabs\\Smocky\\Test\\PhpUnit\\Helpers\\ClassWithMethods\:\:privateMethod\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: test/phpunit/Helpers/ClassWithMethods.php
