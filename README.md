@@ -12,9 +12,6 @@
 
 There are several classes that will do the work:
 
-- To use with PHPUnit:
-  - `MockedMethod` to mock method "globally" and use PHPUnit's `*Mockers` - `expects/willReturn/willReturnCallback/...`
-  - `MockedFunction` 
 - For class methods:
   - `MockedClassMethod` to mock any class with closure
   - `UndefinedClassMethod` to make method disappear
@@ -32,21 +29,6 @@ There are several classes that will do the work:
 
 ```shell
 composer require --dev qratorlabs/smocky
-```
-
-## MockedMethod
-
-The main target is to make mocking static methods easy and feels-n-looks like using PHPUnit.
-
-```php
-public function testSomeTest(): void {
-    $methodMock = new MockedMethod($this, SomeClass::class, 'someMethod', once());
-    $methodMock->getMocker()->willReturn(10);
-
-    SomeClass::someMethod(); // will return `10`
-    
-    SomeClass::someMethod(); // will cause error (expectation - one call)
-}
 ```
 
 ### Note
