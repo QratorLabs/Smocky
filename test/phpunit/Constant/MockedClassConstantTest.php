@@ -6,9 +6,9 @@ namespace QratorLabs\Smocky\Test\PhpUnit\Constant;
 
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\MockedClassConstant;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;
@@ -18,11 +18,10 @@ use function uniqid;
 /**
  * @internal
  */
-class MockedClassConstantTest extends TestCase
+final class MockedClassConstantTest extends RunkitDependantTestCase
 {
     /**
-     * @return Generator
-     * @phpstan-return Generator<string, array{class-string, string}>
+     * @return Generator<string, array{class-string, string}>
      */
     public static function getDataForTests(): Generator
     {
@@ -36,13 +35,10 @@ class MockedClassConstantTest extends TestCase
     }
 
     /**
-     * @param string               $class
-     * @param string               $constantName
+     * @param class-string     $class
+     * @param non-empty-string $constantName
      *
      * @throws ReflectionException
-     *
-     * @phpstan-param class-string $class
-     * @noinspection PhpUndefinedClassInspection
      */
     #[DataProvider('getDataForTests')]
     public function testUsageComplex(string $class, string $constantName): void

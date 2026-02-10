@@ -14,8 +14,7 @@
     }
   ],
   "require": {
-    "php": "^7.1 || ^8.0",
-    "phpunit/phpunit": "^9.6 || ^10.0 || ^11.0 || ^12.0"
+    "php": "^7.1 || ^8.0"
   },
   "autoload": {
     "psr-4": {
@@ -24,14 +23,14 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.9.0",
-    "phpstan/phpstan": "^2.1.3"
+    "phpstan/phpstan": "^2.1.3",
+    "phpunit/phpunit": "^9.6 || ^10.0 || ^11.0 || ^12.0 || ^13.0"
   },
   "autoload-dev": {
     "psr-4": {
       "QratorLabs\\Smocky\\Test\\PhpUnit\\": "./test/phpunit"
     },
     "files": [
-      "./test/phpstan/runkit7.stub.php",
       "./test/phpunit/Helpers/Functions.php"
     ]
   },

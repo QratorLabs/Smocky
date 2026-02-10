@@ -6,9 +6,9 @@ namespace QratorLabs\Smocky\Test\PhpUnit\Constant;
 
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\UndefinedClassConstant;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;
@@ -23,7 +23,7 @@ use const E_WARNING;
 /**
  * @internal
  */
-class UndefinedClassConstantTest extends TestCase
+class UndefinedClassConstantTest extends RunkitDependantTestCase
 {
     /**
      * @return Generator<string, array{string, string}>

@@ -27,4 +27,4 @@ jobs:
         run: composer run-script phpcs
 
       - name: Run phpunit
-        run: composer run-script phpcs
+        run: composer run-script phpunit

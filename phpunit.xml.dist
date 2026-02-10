@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.0/phpunit.xsd"
         backupGlobals="true"
         cacheDirectory="./test/caches/phpunit"
 
@@ -23,9 +23,6 @@
         </testsuite>
         <testsuite name="Smocky">
             <directory>./test/phpunit/Smocky</directory>
-        </testsuite>
-        <testsuite name="Phpunit">
-            <directory>./test/phpunit/Phpunit</directory>
         </testsuite>
     </testsuites>
     <logging>

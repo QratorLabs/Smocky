@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace QratorLabs\Smocky\Test\PhpUnit\Smocky;
 
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\MockedEntity;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithConstants;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithMethods;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionClassConstant;
 use ReflectionException;
 use ReflectionMethod;
@@ -18,7 +18,7 @@ use function strtoupper;
 /**
  * @internal
  */
-class MockedEntityTest extends TestCase
+class MockedEntityTest extends RunkitDependantTestCase
 {
     public function testStashedName(): void
     {

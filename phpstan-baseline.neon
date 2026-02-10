@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to function is_subclass_of\(\) with class\-string and class\-string will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/ClassMethod/MockedClassMethod.php
-
-		-
 			message: '#^Method QratorLabs\\Smocky\\Test\\PhpUnit\\Helpers\\ClassWithMethods\:\:privateMethod\(\) is unused\.$#'
 			identifier: method.unused
 			count: 1

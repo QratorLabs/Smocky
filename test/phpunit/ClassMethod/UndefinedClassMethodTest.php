@@ -6,16 +6,16 @@ namespace QratorLabs\Smocky\Test\PhpUnit\ClassMethod;
 
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\ClassMethod\UndefinedClassMethod;
 use QratorLabs\Smocky\Test\PhpUnit\Helpers\ClassWithMethods;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionClass;
 use ReflectionException;
 
 /**
  * @internal
  */
-class UndefinedClassMethodTest extends TestCase
+class UndefinedClassMethodTest extends RunkitDependantTestCase
 {
     /**
      * @return Generator

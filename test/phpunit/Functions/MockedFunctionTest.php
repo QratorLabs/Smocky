@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace QratorLabs\Smocky\Test\PhpUnit\Functions;
 
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Functions\MockedFunction;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionException;
 use ReflectionFunction;
 
@@ -13,7 +13,7 @@ use function is_file;
 use function microtime;
 use function uniqid;
 
-class MockedFunctionTest extends TestCase
+class MockedFunctionTest extends RunkitDependantTestCase
 {
     /**
      * @return void

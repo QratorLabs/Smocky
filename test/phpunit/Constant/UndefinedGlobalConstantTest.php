@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace QratorLabs\Smocky\Test\PhpUnit\Constant;
 
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\UndefinedGlobalConstant;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionException;
 use RuntimeException;
 
@@ -19,7 +19,7 @@ use function uniqid;
 /**
  * @internal
  */
-class UndefinedGlobalConstantTest extends TestCase
+class UndefinedGlobalConstantTest extends RunkitDependantTestCase
 {
     public function testMissingConstantException(): void
     {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace QratorLabs\Smocky\Test\PhpUnit\Constant;
 
-use PHPUnit\Framework\TestCase;
 use QratorLabs\Smocky\Constant\MockedGlobalConstant;
+use QratorLabs\Smocky\Test\PhpUnit\RunkitDependantTestCase;
 use ReflectionException;
 
 use function constant;
@@ -16,7 +16,7 @@ use function uniqid;
 /**
  * @internal
  */
-class MockedGlobalConstantTest extends TestCase
+class MockedGlobalConstantTest extends RunkitDependantTestCase
 {
     /**
      * @throws ReflectionException
